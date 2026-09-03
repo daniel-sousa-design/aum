@@ -26,6 +26,16 @@
   --lh-small: 1.3; /* 26px at 20px */
   --mw-small: 60%;
 
+  /* 5-column content grid */
+  --col-gap: 20px;
+
+  /* Vertical rhythm (exact at the 1728px design width, fluid below it) */
+  --space-nav-heading: clamp(1.5rem, 2.9vw, 50px);
+  --space-heading-body: clamp(4rem, 10.42vw, 180px);
+  --space-body-media: clamp(2rem, 3.76vw, 65px);
+  --space-media-heading: clamp(3.5rem, 8.68vw, 150px);
+  --space-cta-footer: clamp(7.5rem, 34.72vw, 600px);
+
   font-size: 16px;
 }
 
@@ -186,12 +196,19 @@ a {
    ------------------------------------------------------------------------- */
 
 .statement {
-  padding: clamp(3rem, 8vw, 6rem) var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: var(--col-gap);
+  padding-inline: var(--gutter);
+}
+
+.statement--intro {
+  padding-top: var(--space-nav-heading);
 }
 
 .statement__heading {
-  max-width: var(--mw-big);
-  margin: 0 0 2rem;
+  grid-column: 1 / -1;
+  margin: 0;
   font-size: clamp(1.75rem, 4.2vw, var(--fs-big));
   line-height: var(--lh-big);
   font-weight: 300;
@@ -199,14 +216,14 @@ a {
 }
 
 .statement__body {
-  max-width: var(--mw-small);
-  margin: 0;
+  grid-column: 3 / -1;
+  margin: var(--space-heading-body) 0 0;
   font-size: clamp(1rem, 1.16vw, var(--fs-small));
   line-height: var(--lh-small);
 }
 
 .statement--cta {
-  padding-top: 0;
+  margin-top: var(--space-media-heading);
 }
 
 .underline {
@@ -220,12 +237,17 @@ a {
    ------------------------------------------------------------------------- */
 
 .media {
-  padding: clamp(1rem, 3vw, 2rem) var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: var(--col-gap);
+  padding-inline: var(--gutter);
+  margin-top: var(--space-body-media);
 }
 
 .media__image {
+  grid-column: 2 / -1;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  height: clamp(300px, 39.24vw, 678px);
   object-fit: cover;
   border-radius: 4px;
 }
@@ -235,17 +257,24 @@ a {
    ------------------------------------------------------------------------- */
 
 .site-footer {
-  border-top: 1px solid rgba(34, 31, 32, 0.12);
-  padding: clamp(3rem, 8vw, 6rem) var(--gutter) clamp(2rem, 5vw, 3.5rem);
+  margin-top: var(--space-cta-footer);
+  min-height: 100vh;
+  display: flex;
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 60px;
 }
 
 .site-footer__inner {
   max-width: 72rem;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .site-footer__contact {
   max-width: var(--mw-medium);
-  margin: 0 0 clamp(2.5rem, 6vw, 4rem);
+  margin: 0;
   font-size: clamp(1.25rem, 2.9vw, var(--fs-medium));
   line-height: var(--lh-medium);
   font-weight: 300;
@@ -258,19 +287,13 @@ a {
 
 .site-footer__logos {
   width: min(26rem, 100%);
-  height: auto;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
-}
-
-.site-footer__wordmark {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
-  color: var(--color-ink);
+  aspect-ratio: 713 / 198;
+  background-image: url("../images/footer-wordmark.svg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /* -------------------------------------------------------------------------
@@ -305,5 +328,17 @@ a {
 
   .site-header.is-open .site-nav {
     max-height: 24rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .statement,
+  .media {
+    grid-template-columns: 1fr;
+  }
+
+  .statement__body,
+  .media__image {
+    grid-column: 1 / -1;
   }
 }
