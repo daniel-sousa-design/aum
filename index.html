@@ -52,18 +52,34 @@
     <section class="countdown" id="participe" aria-label="Contagem decrescente até à última manifestação">
       <img class="countdown__image" src="assets/images/hero.jpg" alt="" aria-hidden="true" />
       <div class="countdown__overlay">
-        <p class="countdown__value" id="countdownValue" aria-live="off">
-          <span data-unit="years">00</span>:<span data-unit="days">000</span>:<span data-unit="hours">00</span>:<span data-unit="minutes">00</span>:<span data-unit="seconds">00</span>
-        </p>
-        <div class="countdown__labels">
-          <span>anos</span>
-          <span>dias</span>
-          <span>horas</span>
-          <span>minutos</span>
-          <span>segundos</span>
+        <div class="countdown__value" id="countdownValue" aria-live="off">
+          <div class="countdown__unit">
+            <span class="countdown__number" data-unit="years">00</span>
+            <span class="countdown__unit-label">anos</span>
+          </div>
+          <span class="countdown__colon">:</span>
+          <div class="countdown__unit">
+            <span class="countdown__number" data-unit="days">000</span>
+            <span class="countdown__unit-label">dias</span>
+          </div>
+          <span class="countdown__colon">:</span>
+          <div class="countdown__unit">
+            <span class="countdown__number" data-unit="hours">00</span>
+            <span class="countdown__unit-label">horas</span>
+          </div>
+          <span class="countdown__colon">:</span>
+          <div class="countdown__unit">
+            <span class="countdown__number" data-unit="minutes">00</span>
+            <span class="countdown__unit-label">minutos</span>
+          </div>
+          <span class="countdown__colon">:</span>
+          <div class="countdown__unit">
+            <span class="countdown__number" data-unit="seconds">00</span>
+            <span class="countdown__unit-label">segundos</span>
+          </div>
         </div>
-        <p class="countdown__caption">até À Última Manifestação?</p>
       </div>
+      <p class="countdown__caption">até À Última Manifestação?</p>
     </section>
 
     <section class="statement statement--cta" id="materiais">

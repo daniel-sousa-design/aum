@@ -37,9 +37,9 @@
   /* Vertical rhythm (exact at the 1728px design width, fluid below it) */
   --space-nav-heading: clamp(1.5rem, 2.9vw, 50px);
   --space-heading-body: clamp(4rem, 10.42vw, 180px);
-  --space-body-countdown: clamp(3rem, 8.68vw, 150px);
+  --space-body-countdown: clamp(3.5rem, 11.57vw, 200px);
   --space-countdown-cta: clamp(3.5rem, 8.68vw, 150px);
-  --space-cta-media: clamp(2rem, 3.76vw, 65px);
+  --space-cta-media: clamp(3.5rem, 8.68vw, 150px);
   --space-media-footer: clamp(4rem, 10.42vw, 180px);
 
   font-size: 16px;
@@ -270,6 +270,7 @@ a {
 .countdown {
   position: relative;
   width: 100%;
+  min-height: 100vh;
   margin-top: var(--space-body-countdown);
   overflow: hidden;
   color: #fff;
@@ -284,36 +285,56 @@ a {
 }
 
 .countdown__overlay {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding-block: clamp(3rem, 8vw, 7rem);
+  justify-content: center;
   padding-inline: var(--gutter);
-  text-align: center;
 }
 
 .countdown__value {
-  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2em;
+}
+
+.countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdown__number {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(2rem, 6.5vw, 90px);
+  font-size: clamp(2.5rem, 11.58vw, 200px);
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 
-.countdown__labels {
-  display: flex;
-  justify-content: center;
-  gap: clamp(1.5rem, 5vw, 4.5rem);
+.countdown__colon {
+  font-size: clamp(2.5rem, 11.58vw, 200px);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.countdown__unit-label {
+  margin-top: 0.5rem;
   font-size: clamp(0.85rem, 1.2vw, 1.05rem);
   text-transform: lowercase;
+  text-align: center;
 }
 
 .countdown__caption {
-  margin: 0.5rem 0 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  z-index: 1;
+  margin: 0;
+  text-align: center;
   font-size: clamp(1rem, 1.3vw, 1.15rem);
 }
 
