@@ -2,6 +2,14 @@
    A Última Manifestação? — Amnistia Internacional Portugal
    ========================================================================== */
 
+@font-face {
+  font-family: "Minotaur Sans";
+  src: url("../fonts/MinotaurSans-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #f4f6f2;
   --color-ink: #221f20;
@@ -11,15 +19,14 @@
   --gutter: clamp(1.25rem, 4vw, 3.375rem);
 
   --font-body: "Minotaur Sans", "Work Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Amnistia 04", "Barlow Condensed", "Arial Narrow", sans-serif;
 
   /* Type scale: font-size / line-height (unitless). Text measure is
      controlled by grid-column placement on the 5-column content grid. */
   --fs-big: 70px;
   --lh-big: 1.1429; /* 80px at 70px */
 
-  --fs-medium: 50px;
-  --lh-medium: 1.15; /* 57.5px at 50px */
+  --fs-medium: 32px;
+  --lh-medium: 1.15; /* 36.8px at 32px */
 
   --fs-small: 20px;
   --lh-small: 1.3; /* 26px at 20px */
@@ -245,7 +252,7 @@ a {
 .media__image {
   grid-column: 2 / -1;
   width: 100%;
-  height: clamp(300px, 39.24vw, 678px);
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -273,7 +280,7 @@ a {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   column-gap: var(--col-gap);
-  font-size: clamp(1.25rem, 2.9vw, var(--fs-medium));
+  font-size: clamp(1.125rem, 1.85vw, var(--fs-medium));
   line-height: var(--lh-medium);
   font-weight: 300;
 }

@@ -11,7 +11,8 @@ index.html
 assets/
   css/styles.css
   js/main.js
-  images/          hero, protest photo, partner logos
+  fonts/           Minotaur Sans Light (woff2)
+  images/          hero, protest photo, footer wordmark
 ```
 
 ## Run locally
@@ -31,5 +32,5 @@ Then open http://localhost:4321.
 
 ## Known gaps
 
-- **Fonts**: the design uses two licensed brand fonts (`Minotaur Sans` and `Amnistia 04 Condensed`) that aren't publicly available, so the site currently falls back to close system/Google alternatives. Drop the real `.woff2` files into `assets/fonts/` and add `@font-face` rules in `styles.css` to match exactly.
+- **Display font**: body copy uses the real `Minotaur Sans Light` (`assets/fonts/MinotaurSans-Light.woff2`). The header/footer wordmark still falls back to `Barlow Condensed` since it's actually rendered from a vector asset (`footer-wordmark.svg` / `logo-wordmark.svg`), not live text, so no font file is needed there.
 - **Nav anchors**: "Materiais" and "Notícias" don't have dedicated sections in this single-page design — they currently scroll to the nearest related block. If those become separate pages, update the `href`s in `index.html`.
