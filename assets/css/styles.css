@@ -110,9 +110,9 @@ a {
   top: 0;
   z-index: 100;
   padding-block: clamp(1rem, 2.5vw, 1.6rem);
-  background: var(--color-header-bg);
-  color: var(--color-ink);
-  backdrop-filter: saturate(140%) blur(6px);
+  background: transparent;
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 .site-header__inner {
@@ -128,9 +128,17 @@ a {
   line-height: 0;
 }
 
-.site-header__logo img {
+.site-header__logo-mark {
+  display: block;
   height: clamp(1rem, 1.4vw, 1.25rem);
-  width: auto;
+  aspect-ratio: 259.616 / 24.134;
+  background-color: currentColor;
+  -webkit-mask-image: url("../images/logo-wordmark.svg");
+  mask-image: url("../images/logo-wordmark.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .site-nav {
@@ -265,7 +273,7 @@ a {
   margin-top: var(--space-cta-footer);
   min-height: 100vh;
   display: flex;
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 60px;
+  padding: calc(clamp(2rem, 5vw, 4rem) + 20px) var(--gutter) 60px;
 }
 
 .site-footer__inner {
@@ -318,6 +326,12 @@ a {
    ------------------------------------------------------------------------- */
 
 @media (max-width: 860px) {
+  .site-header {
+    mix-blend-mode: normal;
+    background: var(--color-header-bg);
+    color: var(--color-ink);
+  }
+
   .nav-toggle {
     display: flex;
   }
