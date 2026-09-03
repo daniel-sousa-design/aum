@@ -22,32 +22,19 @@
   const el = document.getElementById("footerLogoAnimation");
   if (!el || typeof lottie === "undefined") return;
 
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   const anim = lottie.loadAnimation({
     container: el,
     renderer: "svg",
-    loop: false,
-    autoplay: false,
+    loop: true,
+    autoplay: !prefersReducedMotion,
     path: el.dataset.animation,
   });
-
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (prefersReducedMotion) {
     anim.addEventListener("DOMLoaded", () => {
       anim.goToAndStop(anim.totalFrames - 1, true);
     });
-    return;
   }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        anim.setDirection(entry.isIntersecting ? 1 : -1);
-        anim.play();
-      });
-    },
-    { threshold: 0.2 }
-  );
-
-  io.observe(el);
 })();

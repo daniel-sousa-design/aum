@@ -315,7 +315,7 @@ a {
 }
 
 .site-footer__logos {
-  width: 100%;
+  width: 50%;
   aspect-ratio: 2160 / 640;
   -webkit-user-drag: none;
   user-select: none;
@@ -377,6 +377,10 @@ a {
     visibility: visible;
     pointer-events: auto;
   }
+
+  .site-footer__logos {
+    width: 70%;
+  }
 }
 
 @media (max-width: 700px) {
@@ -389,5 +393,9 @@ a {
   .statement__body,
   .media__image {
     grid-column: 1 / -1;
+  }
+
+  .site-footer__logos {
+    width: 70%;
   }
 }
