@@ -124,6 +124,8 @@ a {
 }
 
 .site-header__logo {
+  position: relative;
+  z-index: 2;
   text-decoration: none;
   line-height: 0;
 }
@@ -163,6 +165,8 @@ a {
 
 .nav-toggle {
   display: none;
+  position: relative;
+  z-index: 2;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
@@ -170,6 +174,7 @@ a {
   height: 2.25rem;
   background: transparent;
   border: 0;
+  color: inherit;
   cursor: pointer;
   padding: 0;
 }
@@ -180,6 +185,18 @@ a {
   width: 100%;
   background: currentColor;
   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.site-header.is-open .nav-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-header.is-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header.is-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* -------------------------------------------------------------------------
@@ -313,39 +330,56 @@ a {
    ------------------------------------------------------------------------- */
 
 @media (max-width: 860px) {
-  .site-header {
-    mix-blend-mode: normal;
-    background: var(--color-header-bg);
-    color: var(--color-ink);
-  }
-
   .nav-toggle {
     display: flex;
   }
 
+  .site-header__logo {
+    display: block;
+    width: 50%;
+  }
+
+  .site-header__logo-mark {
+    width: 100%;
+    height: auto;
+  }
+
   .site-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    background: var(--color-header-bg);
-    padding: 0.5rem var(--gutter) 1.25rem;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1.25rem;
+    background: #000;
+    color: #fff;
+    padding: 6rem var(--gutter) 3rem;
+    font-size: clamp(2rem, 8vw, 3.25rem);
+    line-height: 1.2;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
 
   .site-nav a {
-    padding: 0.6rem 0;
-    width: 100%;
-    border-bottom: 1px solid rgba(34, 31, 32, 0.08);
+    white-space: normal;
+    text-align: right;
+  }
+
+  .site-header.is-open {
+    mix-blend-mode: normal;
   }
 
   .site-header.is-open .site-nav {
-    max-height: 24rem;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-footer__logos {
+    width: 100%;
   }
 }
 
