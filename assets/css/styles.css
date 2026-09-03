@@ -315,14 +315,14 @@ a {
 }
 
 .site-footer__logos {
-  width: 50%;
-  aspect-ratio: 713 / 198;
-  background-image: url("../images/footer-wordmark.svg");
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: contain;
+  width: 100%;
+  aspect-ratio: 2160 / 640;
   -webkit-user-drag: none;
   user-select: none;
+}
+
+.site-footer__logos svg {
+  pointer-events: none;
 }
 
 /* -------------------------------------------------------------------------
@@ -377,10 +377,6 @@ a {
     visibility: visible;
     pointer-events: auto;
   }
-
-  .site-footer__logos {
-    width: 70%;
-  }
 }
 
 @media (max-width: 700px) {
@@ -393,9 +389,5 @@ a {
   .statement__body,
   .media__image {
     grid-column: 1 / -1;
-  }
-
-  .site-footer__logos {
-    width: 70%;
   }
 }
