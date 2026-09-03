@@ -273,7 +273,7 @@ a {
   min-height: 100vh;
   margin-top: var(--space-body-countdown);
   overflow: hidden;
-  color: #fff;
+  color: #000;
 }
 
 .countdown__image {
