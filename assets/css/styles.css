@@ -54,6 +54,11 @@
   --fs-lead: 44px;
   --lh-lead: 1.15; /* 50px at 44px */
 
+  /* One step below --fs-big: the opening statement on Participe and the
+     material labels on Materiais. */
+  --fs-hero: 60px;
+  --lh-hero: 1.2; /* 72px at 60px */
+
   /* 6-column content grid */
   --col-gap: 20px;
 
@@ -69,6 +74,7 @@
   --space-intro-list: clamp(2rem, 4.63vw, 80px);
   --space-rights: clamp(6rem, 20.25vw, 350px);
   --space-subheading-body: clamp(1rem, 1.85vw, 32px);
+  --space-participate-block: clamp(2.5rem, 6.94vw, 120px);
 
   font-size: 16px;
 }
@@ -307,7 +313,8 @@ a {
    without this the copy reflows on every frame of the scrub. Applies to every
    heading the reveal touches, centred ones included. */
 .statement__heading .line,
-.rights__title .line {
+.rights__title .line,
+.participate__lead .line {
   white-space: nowrap;
 }
 
@@ -940,6 +947,320 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .gallery__ink,
   .gallery__label {
+    transition: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Participate page
+
+   Three blocks on the same 6-column grid the other pages use. Both the opening
+   statement and the numbered list run 4.5 columns wide - the statement from
+   column 1, the list from column 2 - so the copy stops mid-column instead of
+   at a track edge, the way the artwork does.
+   ------------------------------------------------------------------------- */
+
+.participate {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  padding-inline: var(--gutter);
+}
+
+.participate + .participate {
+  margin-top: var(--space-participate-block);
+}
+
+.participate--intro {
+  padding-top: var(--space-nav-heading);
+}
+
+.participate:last-of-type {
+  margin-bottom: var(--space-campaign-wide);
+}
+
+/* The page's opening statement. Reveals on scroll like the other big
+   paragraphs - .participate__lead is in the selector list at the top of
+   assets/js/animations.js. */
+.participate__lead {
+  position: relative;
+  grid-column: 1 / 6;
+  /* Same guard as .statement__heading: the reveal's rest state pushes each
+     line right and inflates its letter-spacing, and .line is nowrap, so the
+     content sits well past this box until the scrub settles. clip, not hidden,
+     so no scroll container is created. */
+  overflow-x: clip;
+  /* 4.5 of the 5 columns it spans. The item is W = 5x + 4g wide (x = column,
+     g = --col-gap) and the target is 4.5x + 4g, which is 0.9W + 0.4g - taken
+     from the item's own width, so it needs no viewport units. */
+  width: calc(100% * 4.5 / 5 + var(--col-gap) * 0.4);
+  margin: 0;
+  font-size: clamp(1.75rem, 3.47vw, var(--fs-hero));
+  line-height: var(--lh-hero);
+  font-weight: 300;
+}
+
+/* Numbers hang outside the measure, so the text edge lines up with column 2. */
+.participate__list {
+  grid-column: 2 / 7;
+  width: calc(100% * 4.5 / 5 + var(--col-gap) * 0.4);
+  margin: 0;
+  padding-left: 1.45em;
+  font-size: clamp(1.3rem, 2.32vw, var(--fs-medium));
+  line-height: var(--lh-hero);
+  font-weight: 300;
+}
+
+/* No gap between items: in the artwork they run on at a single 48px rhythm. */
+.participate__list li + li {
+  margin-top: 0;
+}
+
+.participate__note {
+  grid-column: 1 / 4;
+  margin: 0;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: 1.2;
+  text-wrap: pretty;
+}
+
+/* 2.75 of the 3 columns it spans: W = 3x + 2g, target 2.75x + 1.75g, which
+   reduces to 0.9167W - 0.0833g. */
+.participate__measure {
+  width: calc(100% * 2.75 / 3 - var(--col-gap) * 0.0833);
+}
+
+/* Underlined in the artwork. .participate__pending has no destination yet, so
+   it is marked text rather than a link that goes nowhere - but it draws itself
+   with the links. This is the resting state for a page with no JS. */
+.participate__list a,
+.participate__note a,
+.participate__pending {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+/* With JS, the underline is drawn by scroll instead - forwards on the way
+   down, rewinding on the way back up - exactly like the footer's. The width is
+   written by animations.js, which adds .is-animated; only the resting state
+   lives here. */
+.participate__list.is-animated a,
+.participate__list.is-animated .participate__pending,
+.participate__note.is-animated a,
+.participate__note.is-animated .participate__pending {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Hover re-wipes it, right to left, like the nav. A keyframe animation outranks
+   the inline width the scrub writes for as long as it runs, and hands the
+   underline straight back to the scroll position afterwards - so the two never
+   fight over the property. */
+.participate__list.is-animated a:hover,
+.participate__list.is-animated a:focus-visible,
+.participate__note.is-animated a:hover,
+.participate__note.is-animated a:focus-visible {
+  animation: participate-underline 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes participate-underline {
+  from { background-size: 0% 2px; }
+  to   { background-size: 100% 2px; }
+}
+
+/* Reduced motion: the script leaves these alone, so show them drawn. */
+@media (prefers-reduced-motion: reduce) {
+  .participate__list.is-animated a,
+  .participate__list.is-animated .participate__pending,
+  .participate__note.is-animated a,
+  .participate__note.is-animated .participate__pending {
+    background-size: 100% 2px;
+  }
+
+  .participate__list.is-animated a:hover,
+  .participate__list.is-animated a:focus-visible,
+  .participate__note.is-animated a:hover,
+  .participate__note.is-animated a:focus-visible {
+    animation: none;
+  }
+}
+
+/* The part-column measures are a large-screen composition. Below the
+   breakpoint the columns are too narrow to hold a line, so everything runs the
+   full width and the list loses its indent. */
+@media (max-width: 780px) {
+  .participate__lead,
+  .participate__list,
+  .participate__note {
+    grid-column: 1 / -1;
+    width: auto;
+  }
+
+  .participate__list {
+    padding-left: 1.2em;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Materials page
+
+   Four overlapping polygons. They are placed against the board rather than
+   flowed: each carries its position and size as a percentage of the board in
+   inline custom properties, straight off the artwork, and the board holds the
+   artwork's aspect ratio - so the whole arrangement scales as one piece and
+   the overlaps survive at every width.
+   ------------------------------------------------------------------------- */
+
+.materials {
+  /* 88px below the nav in the artwork, of which the header already
+     contributes its own padding. */
+  padding-top: clamp(2.5rem, 4.63vw, 80px);
+  margin-bottom: var(--space-campaign-block);
+}
+
+.materials__board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1728 / 878;
+}
+
+.materials__item {
+  position: absolute;
+  left: var(--left);
+  top: var(--top);
+  width: var(--width);
+  height: var(--height);
+  display: grid;
+  place-items: center;
+  padding: 0 6%;
+  color: var(--color-ink);
+  text-decoration: none;
+  /* The card's box is a rectangle; the shape inside it is not. Nothing here
+     takes the pointer except the outline itself (below), so the whole polygon
+     is clickable and the corners around it are not - which also stops the
+     rectangles of overlapping cards from stealing each other's hover. The
+     click still lands: the event bubbles from the polygon to this anchor. */
+  pointer-events: none;
+}
+
+/* preserveAspectRatio="none" stretches the traced outline to each shape's own
+   box; non-scaling-stroke on the polygon keeps the line an even weight
+   regardless of how unevenly it was stretched. */
+.materials__shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.materials__outline {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 3px;
+  /* all, not visiblePainted: the fill is none, and the interior still has to
+     be hittable. */
+  pointer-events: all;
+}
+
+/* Ink flooding out from the centre on hover, the same gesture as the cause
+   gallery's tiles. Every card starts unfilled. */
+.materials__ink {
+  fill: var(--color-accent);
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.materials__item:hover .materials__ink,
+.materials__item:focus-visible .materials__ink {
+  transform: scale(1);
+}
+
+.materials__label {
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  /* 55px, measured off the artwork's cap height - a step under --fs-hero. */
+  font-size: clamp(1rem, 3.18vw, 55px);
+  line-height: 1.2;
+  font-weight: 300;
+  /* Above the ink, and out of the pointer's way - see .materials__item. */
+  z-index: 1;
+  /* Grid, so each line sits on its own row and still shrinks to its own text -
+     an inline-block underline would otherwise span the whole label box, and
+     two inline-blocks would flow onto the same line. */
+  display: grid;
+  justify-items: center;
+}
+
+/* No underline at rest - it wipes in on hover, right to left, like the nav.
+   One line per span so the bar hugs each line's own width rather than the
+   label box. */
+.materials__line {
+  display: inline-block;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.materials__item:hover .materials__line,
+.materials__item:focus-visible .materials__line {
+  background-size: 100% 2px;
+}
+
+.materials__item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* 40px against the label's 55px, and clear of the underline above it. */
+.materials__sub {
+  display: block;
+  margin-top: 0.25em;
+  font-size: 0.64em;
+  line-height: 1.15;
+}
+
+/* Narrow screens: the overlapping arrangement stops working long before the
+   text does, so the shapes unstack into one column, each keeping its own
+   proportions (--ar, from the artwork). */
+@media (max-width: 780px) {
+  .materials__board {
+    aspect-ratio: auto;
+    display: grid;
+    gap: clamp(1.5rem, 5vw, 2.5rem);
+    padding-inline: var(--gutter);
+  }
+
+  /* relative, not static: the outline inside is absolutely positioned, and
+     with a static parent it would size itself against the page instead. */
+  .materials__item {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    aspect-ratio: var(--ar);
+  }
+
+  .materials__label {
+    font-size: clamp(1.1rem, 5.5vw, 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .materials__ink,
+  .materials__line {
     transition: none;
   }
 }

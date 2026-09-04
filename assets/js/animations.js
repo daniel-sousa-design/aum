@@ -1,5 +1,5 @@
 (() => {
-  const headings = document.querySelectorAll(".statement__heading, .rights__title");
+  const headings = document.querySelectorAll(".statement__heading, .rights__title, .participate__lead");
   if (!headings.length || !window.gsap || !window.SplitText) return;
 
   // Gap between the text and the underline bar, as a multiple of the
@@ -186,7 +186,7 @@
 })();
 
 /* -------------------------------------------------------------------------
-   Footer link underlines
+   Link underlines
 
    Scrubbed by scroll in both directions, the same way the big paragraphs are:
    a paused timeline whose progress is driven by a smoothed proxy, so it runs
@@ -195,10 +195,19 @@
    The bar is a background gradient (see .is-animated in styles.css) because
    these links wrap; its width is written here rather than tweened directly, so
    nothing depends on GSAP interpolating a "0% 2px" -> "100% 2px" string.
+
+   Hover is left to CSS: a keyframe animation outranks the inline width written
+   here for as long as it runs, then hands the underline straight back to the
+   scroll position - so a link can be re-wiped on hover without the two
+   fighting over the same property.
    ------------------------------------------------------------------------- */
 (() => {
-  const contacts = document.querySelectorAll(".site-footer__contact");
-  if (!contacts.length || !window.gsap || !window.ScrollTrigger) return;
+  // Every block whose links draw themselves on the way past: the footer
+  // contact copy, and the two on the Participe page.
+  const blocks = document.querySelectorAll(
+    ".site-footer__contact, .participate__list, .participate__note"
+  );
+  if (!blocks.length || !window.gsap || !window.ScrollTrigger) return;
 
   // The CSS already shows the underline drawn; leave it alone.
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -216,12 +225,14 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  contacts.forEach((contact) => {
-    const links = contact.querySelectorAll("a");
+  blocks.forEach((block) => {
+    // .participate__pending is underlined but is not a link yet, so it is
+    // drawn along with them rather than sitting there already underlined.
+    const links = block.querySelectorAll("a, .participate__pending");
     if (!links.length) return;
 
     // Added from JS so the plain text-decoration underline survives without it.
-    contact.classList.add("is-animated");
+    block.classList.add("is-animated");
 
     const state = { p: 0 };
     const apply = () => {
@@ -242,7 +253,7 @@
     const proxy = { p: 0 };
 
     ScrollTrigger.create({
-      trigger: contact,
+      trigger: block,
       start: "top 90%",
       end: "top 40%",
       onUpdate(self) {

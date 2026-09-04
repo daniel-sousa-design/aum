@@ -281,4 +281,10 @@
   document.querySelectorAll("form[data-inactive]").forEach((form) => {
     form.addEventListener("submit", (event) => event.preventDefault());
   });
+
+  // Same for the material downloads: the files do not exist yet, so the cards
+  // stay put rather than jumping to the top of the page on a dead href.
+  document.querySelectorAll("a[data-inactive]").forEach((link) => {
+    link.addEventListener("click", (event) => event.preventDefault());
+  });
 })();
