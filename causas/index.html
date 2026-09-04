@@ -28,7 +28,7 @@
           <a href="./" aria-current="page">As causas que defendemos</a>
           <a href="../participe/">Participe</a>
           <a href="../materiais/">Materiais</a>
-          <a href="../#noticias">Notícias</a>
+          <a href="../noticias/">Notícias</a>
           <a href="#contactos">Contactos</a>
         </nav>
       </div>
@@ -49,228 +49,200 @@
     </section>
 
     <section class="causes" aria-label="Lista de causas">
-      <ul class="causes__list" role="tablist" aria-orientation="vertical">
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-expressao"
-                    aria-controls="panel-expressao" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Liberdade de Expressão</span></button>
+      <ul class="causes__list">
+          <li>
+            <button class="causes__item" type="button" id="tab-expressao" aria-controls="panel-expressao" aria-expanded="false"><span class="causes__label">Liberdade de Expressão</span></button>
+            <div class="causes__panel" id="panel-expressao"
+                 role="region" aria-labelledby="tab-expressao" data-cause="expressao">
+              <p>A liberdade de expressão é o direito de procurar, receber e difundir ideias e informação sem receio de censura, perseguição ou represália — incluindo o direito de criticar quem governa, e de o fazer na imprensa, em linha e na rua.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://jornalistas.eu" target="_blank" rel="noopener noreferrer">Sindicato dos Jornalistas</a></li>
+                <li><a href="https://direitosdigitais.pt" target="_blank" rel="noopener noreferrer">D3 — Defesa dos Direitos Digitais</a></li>
+                <li>Associação Portuguesa de Imprensa</li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-nao-discriminacao"
-                    aria-controls="panel-nao-discriminacao" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Não-discriminação</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-nao-discriminacao" aria-controls="panel-nao-discriminacao" aria-expanded="false"><span class="causes__label">Não-discriminação</span></button>
+            <div class="causes__panel" id="panel-nao-discriminacao"
+                 role="region" aria-labelledby="tab-nao-discriminacao" data-cause="nao-discriminacao">
+              <p>A não-discriminação garante que ninguém é tratado de forma desigual em razão da origem, do sexo, da identidade de género, da orientação sexual, da religião, da deficiência ou da condição social — no emprego, no acesso a serviços e na vida pública.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
+                <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
+                <li><a href="https://www.apd.org.pt" target="_blank" rel="noopener noreferrer">Associação Portuguesa de Deficientes</a> <span class="causes__abbr">(APD)</span></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-anti-racista"
-                    aria-controls="panel-anti-racista" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Luta anti-racista</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-anti-racista" aria-controls="panel-anti-racista" aria-expanded="false"><span class="causes__label">Luta anti-racista</span></button>
+            <div class="causes__panel" id="panel-anti-racista"
+                 role="region" aria-labelledby="tab-anti-racista" data-cause="anti-racista">
+              <p>O combate ao racismo exige mais do que a ausência de insultos: exige reconhecer e desmontar as desigualdades estruturais que persistem no acesso à habitação, ao emprego, à saúde e à justiça.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
+                <li><a href="https://djass.pt" target="_blank" rel="noopener noreferrer">Djass</a> <span class="causes__abbr">(Associação de Afrodescendentes)</span></li>
+                <li><a href="https://www.facebook.com/INMUNE.PORTUGAL/" target="_blank" rel="noopener noreferrer">INMUNE</a> <span class="causes__abbr">(Instituto da Mulher Negra em Portugal)</span></li>
+                <li>Plataforma Gueto</li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-migrantes"
-                    aria-controls="panel-migrantes" aria-selected="true"
-                    tabindex="0"><span class="causes__label">Direitos dos migrantes</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-migrantes" aria-controls="panel-migrantes" aria-expanded="false"><span class="causes__label">Direitos dos migrantes</span></button>
+            <div class="causes__panel" id="panel-migrantes"
+                 role="region" aria-labelledby="tab-migrantes" data-cause="migrantes">
+              <p>Os direitos dos migrantes são garantias humanas e legais fundamentais — como acesso a trabalho digno, saúde, educação, habitação e proteção contra a exploração e discriminação — asseguradas a qualquer pessoa fora do seu país de origem, independentemente do seu estatuto de regularização.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://solimigrante.org" target="_blank" rel="noopener noreferrer">Solidariedade Imigrante</a> <span class="causes__abbr">(SOLIM)</span></li>
+                <li><a href="https://casadobrasildelisboa.pt" target="_blank" rel="noopener noreferrer">Casa do Brasil de Lisboa</a> <span class="causes__abbr">(CBL)</span></li>
+                <li><a href="https://jrsportugal.pt" target="_blank" rel="noopener noreferrer">JRS Portugal</a> <span class="causes__abbr">(Serviço Jesuíta aos Refugiados)</span></li>
+                <li><a href="https://cpr.pt" target="_blank" rel="noopener noreferrer">Conselho Português para os Refugiados</a> <span class="causes__abbr">(CPR)</span></li>
+                <li><a href="https://apirp.pt" target="_blank" rel="noopener noreferrer">APIRP</a> <span class="causes__abbr">(Associação de Apoio a Imigrantes e Refugiados em Portugal)</span></li>
+                <li><a href="https://www.renovaramouraria.pt" target="_blank" rel="noopener noreferrer">Renovar a Mouraria</a></li>
+                <li>Associação Imigrantes Mundo Feliz</li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-genero"
-                    aria-controls="panel-genero" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Igualdade de Género</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-genero" aria-controls="panel-genero" aria-expanded="false"><span class="causes__label">Igualdade de Género</span></button>
+            <div class="causes__panel" id="panel-genero"
+                 role="region" aria-labelledby="tab-genero" data-cause="genero">
+              <p>A igualdade de género significa direitos, oportunidades e proteção iguais independentemente do género — do salário ao trabalho de cuidado, da representação política à segurança perante a violência doméstica e sexual.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://umarfeminismos.org" target="_blank" rel="noopener noreferrer">UMAR</a> <span class="causes__abbr">(União de Mulheres Alternativa e Resposta)</span></li>
+                <li><a href="https://plataformamulheres.org.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa para os Direitos das Mulheres</a></li>
+                <li><a href="https://apav.pt" target="_blank" rel="noopener noreferrer">APAV</a> <span class="causes__abbr">(Associação Portuguesa de Apoio à Vítima)</span></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-sexuais"
-                    aria-controls="panel-sexuais" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Direitos Sexuais e Reprodutivos</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-sexuais" aria-controls="panel-sexuais" aria-expanded="false"><span class="causes__label">Direitos Sexuais e Reprodutivos</span></button>
+            <div class="causes__panel" id="panel-sexuais"
+                 role="region" aria-labelledby="tab-sexuais" data-cause="sexuais">
+              <p>Os direitos sexuais e reprodutivos incluem decidir sobre o próprio corpo, o acesso a informação e a contraceção, a cuidados de saúde materna e à interrupção voluntária da gravidez em segurança e sem estigma.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://apf.pt" target="_blank" rel="noopener noreferrer">APF</a> <span class="causes__abbr">(Associação para o Planeamento da Família)</span></li>
+                <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
+                <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-lgbtqiapn"
-                    aria-controls="panel-lgbtqiapn" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Direitos LGBTQIAPN+</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-lgbtqiapn" aria-controls="panel-lgbtqiapn" aria-expanded="false"><span class="causes__label">Direitos LGBTQIAPN+</span></button>
+            <div class="causes__panel" id="panel-lgbtqiapn"
+                 role="region" aria-labelledby="tab-lgbtqiapn" data-cause="lgbtqiapn">
+              <p>As pessoas LGBTQIAPN+ têm direito a viver sem discriminação, violência ou patologização — no acesso à saúde, no reconhecimento legal da identidade de género e na segurança do espaço público.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
+                <li><a href="https://rea.pt" target="_blank" rel="noopener noreferrer">rede ex aequo</a></li>
+                <li><a href="https://casaqui.org" target="_blank" rel="noopener noreferrer">Casa Qui</a></li>
+                <li><a href="https://www.plano-i.org" target="_blank" rel="noopener noreferrer">Associação Plano i</a></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-justica-social"
-                    aria-controls="panel-justica-social" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Justiça Social</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-justica-social" aria-controls="panel-justica-social" aria-expanded="false"><span class="causes__label">Justiça Social</span></button>
+            <div class="causes__panel" id="panel-justica-social"
+                 role="region" aria-labelledby="tab-justica-social" data-cause="justica-social">
+              <p>A justiça social é a distribuição equitativa de recursos e oportunidades — trabalho digno, rendimento suficiente, proteção social e participação — para que a pobreza não determine o que é possível numa vida.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://www.eapn.pt" target="_blank" rel="noopener noreferrer">EAPN Portugal</a> <span class="causes__abbr">(Rede Europeia Anti-Pobreza)</span></li>
+                <li><a href="https://caritas.pt" target="_blank" rel="noopener noreferrer">Cáritas Portuguesa</a></li>
+                <li><a href="https://www.cvidaepaz.pt" target="_blank" rel="noopener noreferrer">Comunidade Vida e Paz</a></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-habitacao"
-                    aria-controls="panel-habitacao" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Direito à Habitação</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-habitacao" aria-controls="panel-habitacao" aria-expanded="false"><span class="causes__label">Direito à Habitação</span></button>
+            <div class="causes__panel" id="panel-habitacao"
+                 role="region" aria-labelledby="tab-habitacao" data-cause="habitacao">
+              <p>O direito à habitação é o direito a uma casa adequada, segura e acessível — com proteção contra despejos arbitrários e contra rendas que expulsam as pessoas dos bairros onde vivem.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://habita.info" target="_blank" rel="noopener noreferrer">Habita</a> <span class="causes__abbr">(Associação pelo Direito à Habitação e à Cidade)</span></li>
+                <li>Movimento Vida Justa</li>
+                <li>Stop Despejos</li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-saude"
-                    aria-controls="panel-saude" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Direito à Saúde</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-saude" aria-controls="panel-saude" aria-expanded="false"><span class="causes__label">Direito à Saúde</span></button>
+            <div class="causes__panel" id="panel-saude"
+                 role="region" aria-labelledby="tab-saude" data-cause="saude">
+              <p>O direito à saúde é o acesso universal a cuidados de qualidade, sem barreiras económicas, geográficas ou administrativas — e inclui a saúde mental e o cuidado a quem vive em maior vulnerabilidade.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
+                <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
+                <li><a href="https://abraco.pt" target="_blank" rel="noopener noreferrer">Abraço</a></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-educacao"
-                    aria-controls="panel-educacao" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Direito à Educação</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-educacao" aria-controls="panel-educacao" aria-expanded="false"><span class="causes__label">Direito à Educação</span></button>
+            <div class="causes__panel" id="panel-educacao"
+                 role="region" aria-labelledby="tab-educacao" data-cause="educacao">
+              <p>O direito à educação é o acesso a uma escola pública, inclusiva e gratuita, que não reproduza as desigualdades de origem e que prepare para uma cidadania informada e crítica.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://the.akdn/pt/where-we-work/europe/portugal" target="_blank" rel="noopener noreferrer">Fundação Aga Khan Portugal</a></li>
+                <li><a href="https://www.epis.pt" target="_blank" rel="noopener noreferrer">EPIS</a> <span class="causes__abbr">(Empresários pela Inclusão Social)</span></li>
+                <li>Associação Nacional de Professores</li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-associacao"
-                    aria-controls="panel-associacao" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Liberdade de Associação</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-associacao" aria-controls="panel-associacao" aria-expanded="false"><span class="causes__label">Liberdade de Associação</span></button>
+            <div class="causes__panel" id="panel-associacao"
+                 role="region" aria-labelledby="tab-associacao" data-cause="associacao">
+              <p>A liberdade de associação é o direito de nos juntarmos, de nos organizarmos e de agirmos em conjunto — em sindicatos, coletivos e associações — sem autorização prévia nem receio de represálias.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://www.cgtp.pt" target="_blank" rel="noopener noreferrer">CGTP-IN</a></li>
+                <li><a href="https://www.ugt.pt" target="_blank" rel="noopener noreferrer">UGT</a></li>
+                <li><a href="https://www.plataformaongd.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa das ONGD</a></li>
+              </ul>
+            </div>
           </li>
-          <li role="presentation">
-            <button class="causes__item" type="button" role="tab" id="tab-climatica"
-                    aria-controls="panel-climatica" aria-selected="false"
-                    tabindex="-1"><span class="causes__label">Justiça Climática</span></button>
+          <li>
+            <button class="causes__item" type="button" id="tab-climatica" aria-controls="panel-climatica" aria-expanded="false"><span class="causes__label">Justiça Climática</span></button>
+            <div class="causes__panel" id="panel-climatica"
+                 role="region" aria-labelledby="tab-climatica" data-cause="climatica">
+              <p>A justiça climática reconhece que a crise climática atinge primeiro e com mais força quem menos contribuiu para ela, e exige que a resposta proteja quem está mais exposto em vez de agravar as desigualdades.</p>
+
+              <p>Conheça:</p>
+              <ul class="causes__orgs">
+                <li><a href="https://zero.ong" target="_blank" rel="noopener noreferrer">ZERO</a> <span class="causes__abbr">(Associação Sistema Terrestre Sustentável)</span></li>
+                <li><a href="https://quercus.pt" target="_blank" rel="noopener noreferrer">Quercus</a></li>
+                <li><a href="https://www.climaximo.pt" target="_blank" rel="noopener noreferrer">Climáximo</a></li>
+                <li><a href="https://www.geota.pt" target="_blank" rel="noopener noreferrer">GEOTA</a></li>
+              </ul>
+            </div>
           </li>
       </ul>
 
       <!-- One panel per cause, stacked in a single grid cell. JS hides all but
            the selected one; without JS every panel stays readable. -->
-      <div class="causes__panels">
-        <div class="causes__panel" id="panel-expressao" role="tabpanel"
-             aria-labelledby="tab-expressao" data-cause="expressao">
-          <p>A liberdade de expressão é o direito de procurar, receber e difundir ideias e informação sem receio de censura, perseguição ou represália — incluindo o direito de criticar quem governa, e de o fazer na imprensa, em linha e na rua.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://jornalistas.eu" target="_blank" rel="noopener noreferrer">Sindicato dos Jornalistas</a></li>
-            <li><a href="https://direitosdigitais.pt" target="_blank" rel="noopener noreferrer">D3 — Defesa dos Direitos Digitais</a></li>
-            <li>Associação Portuguesa de Imprensa</li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-nao-discriminacao" role="tabpanel"
-             aria-labelledby="tab-nao-discriminacao" data-cause="nao-discriminacao">
-          <p>A não-discriminação garante que ninguém é tratado de forma desigual em razão da origem, do sexo, da identidade de género, da orientação sexual, da religião, da deficiência ou da condição social — no emprego, no acesso a serviços e na vida pública.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
-            <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
-            <li><a href="https://www.apd.org.pt" target="_blank" rel="noopener noreferrer">Associação Portuguesa de Deficientes</a> <span class="causes__abbr">(APD)</span></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-anti-racista" role="tabpanel"
-             aria-labelledby="tab-anti-racista" data-cause="anti-racista">
-          <p>O combate ao racismo exige mais do que a ausência de insultos: exige reconhecer e desmontar as desigualdades estruturais que persistem no acesso à habitação, ao emprego, à saúde e à justiça.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
-            <li><a href="https://djass.pt" target="_blank" rel="noopener noreferrer">Djass</a> <span class="causes__abbr">(Associação de Afrodescendentes)</span></li>
-            <li><a href="https://www.facebook.com/INMUNE.PORTUGAL/" target="_blank" rel="noopener noreferrer">INMUNE</a> <span class="causes__abbr">(Instituto da Mulher Negra em Portugal)</span></li>
-            <li>Plataforma Gueto</li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-migrantes" role="tabpanel"
-             aria-labelledby="tab-migrantes" data-cause="migrantes">
-          <p>Os direitos dos migrantes são garantias humanas e legais fundamentais — como acesso a trabalho digno, saúde, educação, habitação e proteção contra a exploração e discriminação — asseguradas a qualquer pessoa fora do seu país de origem, independentemente do seu estatuto de regularização.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://solimigrante.org" target="_blank" rel="noopener noreferrer">Solidariedade Imigrante</a> <span class="causes__abbr">(SOLIM)</span></li>
-            <li><a href="https://casadobrasildelisboa.pt" target="_blank" rel="noopener noreferrer">Casa do Brasil de Lisboa</a> <span class="causes__abbr">(CBL)</span></li>
-            <li><a href="https://jrsportugal.pt" target="_blank" rel="noopener noreferrer">JRS Portugal</a> <span class="causes__abbr">(Serviço Jesuíta aos Refugiados)</span></li>
-            <li><a href="https://cpr.pt" target="_blank" rel="noopener noreferrer">Conselho Português para os Refugiados</a> <span class="causes__abbr">(CPR)</span></li>
-            <li><a href="https://apirp.pt" target="_blank" rel="noopener noreferrer">APIRP</a> <span class="causes__abbr">(Associação de Apoio a Imigrantes e Refugiados em Portugal)</span></li>
-            <li><a href="https://www.renovaramouraria.pt" target="_blank" rel="noopener noreferrer">Renovar a Mouraria</a></li>
-            <li>Associação Imigrantes Mundo Feliz</li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-genero" role="tabpanel"
-             aria-labelledby="tab-genero" data-cause="genero">
-          <p>A igualdade de género significa direitos, oportunidades e proteção iguais independentemente do género — do salário ao trabalho de cuidado, da representação política à segurança perante a violência doméstica e sexual.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://umarfeminismos.org" target="_blank" rel="noopener noreferrer">UMAR</a> <span class="causes__abbr">(União de Mulheres Alternativa e Resposta)</span></li>
-            <li><a href="https://plataformamulheres.org.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa para os Direitos das Mulheres</a></li>
-            <li><a href="https://apav.pt" target="_blank" rel="noopener noreferrer">APAV</a> <span class="causes__abbr">(Associação Portuguesa de Apoio à Vítima)</span></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-sexuais" role="tabpanel"
-             aria-labelledby="tab-sexuais" data-cause="sexuais">
-          <p>Os direitos sexuais e reprodutivos incluem decidir sobre o próprio corpo, o acesso a informação e a contraceção, a cuidados de saúde materna e à interrupção voluntária da gravidez em segurança e sem estigma.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://apf.pt" target="_blank" rel="noopener noreferrer">APF</a> <span class="causes__abbr">(Associação para o Planeamento da Família)</span></li>
-            <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
-            <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-lgbtqiapn" role="tabpanel"
-             aria-labelledby="tab-lgbtqiapn" data-cause="lgbtqiapn">
-          <p>As pessoas LGBTQIAPN+ têm direito a viver sem discriminação, violência ou patologização — no acesso à saúde, no reconhecimento legal da identidade de género e na segurança do espaço público.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
-            <li><a href="https://rea.pt" target="_blank" rel="noopener noreferrer">rede ex aequo</a></li>
-            <li><a href="https://casaqui.org" target="_blank" rel="noopener noreferrer">Casa Qui</a></li>
-            <li><a href="https://www.plano-i.org" target="_blank" rel="noopener noreferrer">Associação Plano i</a></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-justica-social" role="tabpanel"
-             aria-labelledby="tab-justica-social" data-cause="justica-social">
-          <p>A justiça social é a distribuição equitativa de recursos e oportunidades — trabalho digno, rendimento suficiente, proteção social e participação — para que a pobreza não determine o que é possível numa vida.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://www.eapn.pt" target="_blank" rel="noopener noreferrer">EAPN Portugal</a> <span class="causes__abbr">(Rede Europeia Anti-Pobreza)</span></li>
-            <li><a href="https://caritas.pt" target="_blank" rel="noopener noreferrer">Cáritas Portuguesa</a></li>
-            <li><a href="https://www.cvidaepaz.pt" target="_blank" rel="noopener noreferrer">Comunidade Vida e Paz</a></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-habitacao" role="tabpanel"
-             aria-labelledby="tab-habitacao" data-cause="habitacao">
-          <p>O direito à habitação é o direito a uma casa adequada, segura e acessível — com proteção contra despejos arbitrários e contra rendas que expulsam as pessoas dos bairros onde vivem.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://habita.info" target="_blank" rel="noopener noreferrer">Habita</a> <span class="causes__abbr">(Associação pelo Direito à Habitação e à Cidade)</span></li>
-            <li>Movimento Vida Justa</li>
-            <li>Stop Despejos</li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-saude" role="tabpanel"
-             aria-labelledby="tab-saude" data-cause="saude">
-          <p>O direito à saúde é o acesso universal a cuidados de qualidade, sem barreiras económicas, geográficas ou administrativas — e inclui a saúde mental e o cuidado a quem vive em maior vulnerabilidade.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
-            <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
-            <li><a href="https://abraco.pt" target="_blank" rel="noopener noreferrer">Abraço</a></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-educacao" role="tabpanel"
-             aria-labelledby="tab-educacao" data-cause="educacao">
-          <p>O direito à educação é o acesso a uma escola pública, inclusiva e gratuita, que não reproduza as desigualdades de origem e que prepare para uma cidadania informada e crítica.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://the.akdn/pt/where-we-work/europe/portugal" target="_blank" rel="noopener noreferrer">Fundação Aga Khan Portugal</a></li>
-            <li><a href="https://www.epis.pt" target="_blank" rel="noopener noreferrer">EPIS</a> <span class="causes__abbr">(Empresários pela Inclusão Social)</span></li>
-            <li>Associação Nacional de Professores</li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-associacao" role="tabpanel"
-             aria-labelledby="tab-associacao" data-cause="associacao">
-          <p>A liberdade de associação é o direito de nos juntarmos, de nos organizarmos e de agirmos em conjunto — em sindicatos, coletivos e associações — sem autorização prévia nem receio de represálias.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://www.cgtp.pt" target="_blank" rel="noopener noreferrer">CGTP-IN</a></li>
-            <li><a href="https://www.ugt.pt" target="_blank" rel="noopener noreferrer">UGT</a></li>
-            <li><a href="https://www.plataformaongd.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa das ONGD</a></li>
-          </ul>
-        </div>
-        <div class="causes__panel" id="panel-climatica" role="tabpanel"
-             aria-labelledby="tab-climatica" data-cause="climatica">
-          <p>A justiça climática reconhece que a crise climática atinge primeiro e com mais força quem menos contribuiu para ela, e exige que a resposta proteja quem está mais exposto em vez de agravar as desigualdades.</p>
-
-          <p>Conheça:</p>
-          <ul class="causes__orgs">
-            <li><a href="https://zero.ong" target="_blank" rel="noopener noreferrer">ZERO</a> <span class="causes__abbr">(Associação Sistema Terrestre Sustentável)</span></li>
-            <li><a href="https://quercus.pt" target="_blank" rel="noopener noreferrer">Quercus</a></li>
-            <li><a href="https://www.climaximo.pt" target="_blank" rel="noopener noreferrer">Climáximo</a></li>
-            <li><a href="https://www.geota.pt" target="_blank" rel="noopener noreferrer">GEOTA</a></li>
-          </ul>
-        </div>
-      </div>
     </section>
 
     <section class="causes" aria-label="Sugerir uma causa">

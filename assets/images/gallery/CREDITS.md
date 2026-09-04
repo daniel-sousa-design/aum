@@ -51,3 +51,18 @@ the long edge.
   - May Day, Belfast, May 1986 (05).jpg
   - Ardfern, CC BY-SA 3.0
   - https://commons.wikimedia.org/wiki/File%3AMay_Day%2C_Belfast%2C_May_1986_%2805%29.jpg
+
+---
+
+## assets/images/noticias/
+
+Different provenance: these came from Amnistia, not from Commons. The three
+news photographs and the three press screenshots are the ones in the artwork.
+The screenshots are of SIC Notícias, Ípsilon and Expresso posts, so whatever
+permission covers reproducing them is Amnistia's to confirm - nothing here
+was licensed by us.
+
+The handles under the press cards (@sicnoticias, @ipsilon, @expresso) are read
+off the posts themselves and need checking against the real accounts; the
+artwork had @sicnoticias under all three, which cannot be right once the
+screenshots are the actual ones.

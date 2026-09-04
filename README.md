@@ -12,6 +12,7 @@ campanha/index.html  "A Campanha"                  /campanha/
 causas/index.html    "As causas..."                /causas/
 participe/index.html "Participe"                   /participe/
 materiais/index.html "Materiais"                   /materiais/
+noticias/index.html  "Notícias"                    /noticias/
 assets/
   css/styles.css
   js/main.js         nav toggle, countdown, cursor, form behaviour
@@ -90,7 +91,6 @@ Then open http://localhost:4321.
 ## Known gaps
 
 - **Display font**: body copy uses the real `Minotaur Sans Light` (`assets/fonts/MinotaurSans-Light.woff2`). The header/footer wordmark still falls back to `Barlow Condensed` since it's actually rendered from a vector asset (`footer-wordmark.svg` / `logo-wordmark.svg`), not live text, so no font file is needed there.
-- **Nav anchors**: "Notícias" has no page of its own — it scrolls to the nearest related block on the home page. If it becomes its own page, update the `href` in all five files.
 - **Countdown banner image**: uses `assets/images/countdown-bg.jpg`, cropped from the user-supplied archival broadcast still (pillarbox bars removed, ~1.32:1). Not exported from Figma directly — the Figma MCP integration hit its plan's tool-call rate limit before that asset could be pulled.
 - **Countdown target**: hardcoded to `2029-09-15T00:00:00+01:00` (WEST) in `assets/js/main.js`, matching the Figma mockup's static "03:12:03:30:02" snapshot. Update there if the date changes.
 - **A Campanha layout**: built from a PNG of the artwork, not read from Figma — the MCP integration is still over its plan's tool-call limit. Column placements land on grid boundaries and should be right; vertical spacing and `--fs-lead` were measured off a ~1/3-scale image and are approximations worth checking against the source file.

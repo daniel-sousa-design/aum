@@ -18,6 +18,15 @@
   font-display: swap;
 }
 
+/* Used for the press quotes on Notícias. */
+@font-face {
+  font-family: "Minotaur Sans";
+  src: url("../fonts/MinotaurSans-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #f4f6f2;
   --color-ink: #000000;
@@ -574,7 +583,7 @@ a {
   transition: color 0.4s ease;
 }
 
-.causes__item[aria-selected="true"] {
+.causes__item[aria-expanded="true"] {
   color: var(--color-accent);
 }
 
@@ -584,7 +593,19 @@ a {
 .causes__label {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
-  background-position: 100% calc(100% + var(--underline-gap));
+  /* Dropped below the descenders with padding rather than with a gap like
+     --underline-gap: the bar is a background, so it is clipped to this box,
+     and a positive gap would push it out of sight instead of down. Padding on
+     an inline box does not move the lines, so this costs no layout.
+
+     Why it is needed: the bar hangs off the inline content box, whose bottom
+     is the font's descent (0.2em), and this face takes 'g' to 0.170em and 'ç'
+     to 0.160em - about 2px of clearance at this size, which rounds straight
+     into the tails. 0.06em puts 4px between them, and still clears the next
+     line: there is 0.05em of leading below the content box, and its accents
+     start another 0.06em lower. */
+  padding-bottom: 0.06em;
+  background-position: 100% 100%;
   background-size: 0% 2px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
@@ -593,7 +614,7 @@ a {
 
 .causes__item:hover .causes__label,
 .causes__item:focus-visible .causes__label,
-.causes__item[aria-selected="true"] .causes__label {
+.causes__item[aria-expanded="true"] .causes__label {
   background-size: 100% 2px;
 }
 
@@ -603,19 +624,66 @@ a {
 }
 
 /* Panels are stacked in one cell so swapping never changes the page height. */
-.causes__panels {
-  grid-column: 5 / 7;
-  align-self: center;
-  display: grid;
-}
+/* Two layouts from one set of markup, with the panel authored inside its own
+   list item either way.
 
-.causes__panels > * {
-  grid-area: 1 / 1;
-}
+   Narrow screens get the accordion: the text opens directly under its own
+   title, sharing its left edge, and pushes the rest of the list down as it
+   grows. That is the base state here - closed panels stay in the flow at zero
+   height rather than display:none, so the height can be animated and the
+   contents can fade up into the space at the same time.
 
-/* Detail panel for the selected cause. */
+   visibility: hidden while closed, so a collapsed panel is out of the
+   accessibility tree and out of tab order; animations.js turns it back on
+   before opening. */
 .causes__panel {
-  align-self: start;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Breathing room above and below the text, inside the clipped box so it grows
+   and collapses with it. */
+.causes__panel > :first-child {
+  margin-top: 1.4em;
+}
+
+.causes__panel > :last-child {
+  margin-bottom: 2.2em;
+}
+
+/* Wide screens keep the original arrangement: the panel sits in the right-hand
+   column, vertically centred against the list. Out of flow, so a long panel
+   cannot stretch the list or shift the titles - which is what the accordion
+   does on purpose, and what should not happen here.
+
+   The offsets are the section's own 6-column grid, resolved against the
+   padding box an absolute position measures from: with W = 100% - 2*gutter and
+   x = (W - 5g)/6, column 5 starts at gutter + 4x + 4g and columns 5-6 are
+   2x + g wide. */
+@media (min-width: 701px) {
+  .causes {
+    position: relative;
+  }
+
+  .causes__panel {
+    position: absolute;
+    top: 50%;
+    left: calc(66.667% - var(--gutter) * 0.3333 + var(--col-gap) * 0.6667);
+    width: calc(33.333% - var(--gutter) * 0.6667 - var(--col-gap) * 0.6667);
+    height: auto;
+    overflow: visible;
+    transform: translateY(-50%);
+  }
+
+  .causes__panel > :first-child {
+    margin-top: 0;
+  }
+
+  .causes__panel > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .causes__panel p {
@@ -821,10 +889,11 @@ a {
   background: var(--color-bg);
   /* Tall enough for the settled stack. With the tile sizes fixed, the settled
      pile's height is roughly (total polygon area) / (stage width x ~0.68
-     packing), so it grows LINEARLY with the number of tiles. Simulated at this
-     height: eight tiles clear the top edge in 14 of 16 runs, nine in 7, ten in
-     1. Below this, drop tiles rather than shrinking them. */
-  min-height: clamp(435px, 85.1vw, 1470px);
+     packing), so it grows LINEARLY with the number of tiles. Simulated over 16
+     runs at this height, the eight tiles settle with ~280px of clear air above
+     the pile; at 1470 it was ~60px and the odd run overshot. Below this, drop
+     tiles rather than shrinking them. */
+  min-height: clamp(490px, 95.5vw, 1350px);
   /* Clips left, right and bottom but deliberately not the top: whatever the
      pile does not have room for is allowed to stand above the section instead
      of being cut off. overflow can only clip on all four sides at once, so
@@ -915,7 +984,7 @@ a {
   transform: translate(-50%, -50%) scale(0);
   /* Quintic ease-in-out: heavy at the start, so the ink barely creeps before
      it opens, and settling again at the end rather than snapping to a stop. */
-  transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+  transition: transform 0.9s cubic-bezier(0.35, 0, 0.17, 1);
   pointer-events: none;
 }
 
@@ -1176,7 +1245,7 @@ a {
   transform: scale(0);
   transform-box: fill-box;
   transform-origin: 50% 50%;
-  transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+  transition: transform 0.9s cubic-bezier(0.35, 0, 0.17, 1);
 }
 
 .materials__item:hover .materials__ink,
@@ -1262,6 +1331,199 @@ a {
   .materials__ink,
   .materials__line {
     transition: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Notícias page
+
+   Two grids of three, both on the site's column rhythm: three tracks of the
+   6-column grid's width (2 columns each, 526px at the design width) with the
+   same --col-gap between them, so the cards line up with everything else on
+   the site without nesting a grid inside a grid.
+   ------------------------------------------------------------------------- */
+
+.news {
+  padding: clamp(2.5rem, 5.67vw, 98px) var(--gutter) 0;
+}
+
+.news__grid,
+.press__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: clamp(3rem, 5.9vw, 102px);
+}
+
+.news__card,
+.press__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+}
+
+.news__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.press__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* The cause the item belongs to, drawn as a pointed banner rather than a
+   border-radius capsule - the artwork's own shape has cut corners, not round
+   ones. Built from three pieces rather than one stretched polygon, because a
+   single shape traced at one aspect ratio and then stretched to fit would
+   distort differently on "Justiça social" than on "Direitos LGBTQIAPN+" - the
+   points would blunt or sharpen with the label. Fixed-size point caps on each
+   end (an SVG, sized in em so it scales with the text but never with the
+   label's length) flank a straight run in the middle (plain CSS borders,
+   which stretch to any width with nothing to distort). The two caps are the
+   same path mirrored, not two drawings to keep in sync.
+
+   inline-flex so the caps and the rule sit side by side at the label's own
+   height, with the text layered on top positioned by the padding below. */
+/* The cause the item belongs to. The outline is the designer's own SVG
+   ("Poligon Pill.svg") - path and viewBox unchanged, only the stroke handling
+   is ours - rather than anything rebuilt from CSS borders. An earlier version
+   drew the ends as SVG and the straight run as border-top/border-bottom, which
+   meant two different rasterisers meeting mid-edge: the join never lined up
+   cleanly at any zoom.
+
+   preserveAspectRatio="none" stretches the shape to whatever the label needs.
+   That is safe here because the shape is a barrelled rectangle - the parts
+   that stretch are the long flat edges, and the shoulders are shallow enough
+   (4 units out of 159) that widening a tag barely moves them. */
+.news__tag {
+  position: relative;
+  display: inline-block;
+  margin: clamp(0.75rem, 1.16vw, 20px) 0 0;
+  padding: 0.62em 1.35em;
+  font-size: clamp(0.75rem, 0.87vw, 15px);
+  line-height: 1.2;
+}
+
+.news__tag-shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.news__tag-shape path {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+}
+
+.news__tag-text {
+  position: relative;
+  white-space: nowrap;
+}
+
+.news__headline {
+  margin: clamp(0.6rem, 0.98vw, 17px) 0 0;
+  font-size: clamp(1.3rem, 2.32vw, var(--fs-medium));
+  line-height: 1.2;
+  font-weight: 300;
+}
+
+.news__link {
+  margin-top: clamp(0.9rem, 1.27vw, 22px);
+  color: inherit;
+  text-decoration: none;
+  /* Same right-to-left underline wipe as the nav. */
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.news__link:hover,
+.news__link:focus-visible {
+  background-size: 100% 2px;
+}
+
+/* Traced off the artwork: a long shallow rise broken by a short drop. Stretched
+   to the page width, with the stroke held at an even weight through the
+   stretch. */
+.news__rule {
+  display: block;
+  width: calc(100% - var(--gutter) * 2);
+  height: clamp(10px, 1.16vw, 20px);
+  margin: clamp(4rem, 16.5vw, 285px) var(--gutter) 0;
+  overflow: visible;
+}
+
+/* An even sawtooth - a long shallow rise broken by a short sharp drop,
+   repeated - rather than the artwork's own line traced point for point: that
+   line was drawn by hand over compressed raster pixels, and copying its
+   jitter faithfully would have meant reproducing scan noise as if it were
+   the design. */
+/* Round joins and caps, not the default miter: the teeth meet at a very acute
+   angle, and a miter there either spikes far past the line or gets clipped to
+   a flat notch by the miter limit - both of which read as a rendering fault
+   rather than as a drawn line. */
+.news__rule polyline {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.press {
+  padding: clamp(2.5rem, 5.61vw, 97px) var(--gutter) 0;
+  margin-bottom: var(--space-campaign-wide);
+}
+
+/* One step above --fs-big, measured off the artwork's cap height. */
+.press__title {
+  margin: 0 0 clamp(1.5rem, 2.43vw, 42px);
+  font-size: clamp(1.75rem, 4.34vw, 75px);
+  line-height: 1.15;
+  font-weight: 300;
+}
+
+.press__handle {
+  margin: clamp(0.5rem, 0.75vw, 13px) 0 0;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+}
+
+/* The italic face is only used here - see the @font-face at the top. */
+.press__quote {
+  margin: 0.4em 0 0;
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+/* Three across only holds while a column can carry a headline: two, then one. */
+@media (max-width: 1000px) {
+  .news__grid,
+  .press__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .news__grid,
+  .press__grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1629,6 +1891,19 @@ a {
   .campaign__measure,
   .campaign__lead {
     width: 100%;
+  }
+
+  /* One column: the list spans it, and its panels run the full measure rather
+     than the half they take beside the big titles. */
+  .causes__list {
+    grid-column: 1 / -1;
+  }
+
+  /* 200px more than the width-proportional height above: at this size the
+     shapes are scaled down with the viewport but the pile still wants more
+     room than 95.5vw leaves it. max(), so the floor moves with it. */
+  .gallery {
+    min-height: max(690px, 95.5vw + 200px);
   }
 
   /* The split section stacks, so its full-screen framing no longer applies. */

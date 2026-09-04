@@ -334,41 +334,84 @@
    ------------------------------------------------------------------------- */
 (() => {
   const list = document.querySelector(".causes__list");
-  const panels = document.querySelector(".causes__panels");
-  if (!list || !panels || !window.gsap) return;
+  if (!list || !window.gsap) return;
 
-  const tabs = Array.from(list.querySelectorAll(".causes__item"));
-  const pages = Array.from(panels.querySelectorAll(".causes__panel"));
-  if (!tabs.length || !pages.length) return;
+  const buttons = Array.from(list.querySelectorAll(".causes__item"));
+  if (!buttons.length) return;
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // How far each block starts below its resting place, and the gap between
-  // consecutive blocks - together these read as a top-to-bottom cascade.
-  const RISE = 24;
-  const STAGGER = 0.06;
+  // Two behaviours from the same markup, matching the two layouts in the
+  // stylesheet. Wide: the panel is out of flow in the right-hand column, one
+  // always showing, and switching cause cross-fades it - clicking the open
+  // cause leaves it open, since closing it would leave the column empty.
+  // Narrow: the panel opens under its own title, growing its height while its
+  // contents fade up into the space, and clicking the open cause closes it.
+  const narrow = window.matchMedia("(max-width: 700px)");
 
-  const show = (index, animate) => {
-    tabs.forEach((tab, i) => {
-      const selected = i === index;
-      tab.setAttribute("aria-selected", String(selected));
-      tab.tabIndex = selected ? 0 : -1;
+  const OPEN = 0.6;
+  const CLOSE = 0.45;
+  const RISE = 16;
+  const STAGGER = 0.05;
+
+  // The cause shown by default on wide screens, where something has to be.
+  const DEFAULT_CAUSE = "migrantes";
+
+  const panelOf = (button) =>
+    document.getElementById(button.getAttribute("aria-controls"));
+
+  let current = null;
+
+  const close = (button, animate) => {
+    const panel = panelOf(button);
+    button.setAttribute("aria-expanded", "false");
+    gsap.killTweensOf([panel, panel.children]);
+
+    if (!narrow.matches) {
+      // Height belongs to the accordion; the column layout sizes itself.
+      gsap.set(panel, { visibility: "hidden", clearProps: "height" });
+      return;
+    }
+
+    if (!animate || reduced) {
+      gsap.set(panel, { height: 0, visibility: "hidden" });
+      return;
+    }
+
+    gsap.to(panel, {
+      height: 0,
+      duration: CLOSE,
+      ease: "power2.inOut",
+      onComplete: () => gsap.set(panel, { visibility: "hidden" }),
     });
+  };
 
-    pages.forEach((page, i) => {
-      page.hidden = i !== index;
-    });
+  const open = (button, animate) => {
+    const panel = panelOf(button);
+    button.setAttribute("aria-expanded", "true");
+    gsap.killTweensOf([panel, panel.children]);
+    gsap.set(panel, { visibility: "visible" });
 
-    const page = pages[index];
-    if (!animate || reduced) return;
+    if (!narrow.matches) {
+      gsap.set(panel, { clearProps: "height" });
+    } else if (!animate || reduced) {
+      gsap.set(panel, { height: "auto" });
+    } else {
+      gsap.to(panel, { height: "auto", duration: OPEN, ease: "power2.inOut" });
+    }
+
+    if (!animate || reduced) {
+      gsap.set(panel.children, { clearProps: "all" });
+      return;
+    }
 
     gsap.fromTo(
-      page.children,
+      panel.children,
       { y: RISE, autoAlpha: 0 },
       {
         y: 0,
         autoAlpha: 1,
-        duration: 0.55,
+        duration: OPEN,
         ease: "power2.out",
         stagger: STAGGER,
         overwrite: true,
@@ -376,26 +419,56 @@
     );
   };
 
-  tabs.forEach((tab, i) => {
-    tab.addEventListener("click", () => show(i, true));
+  const select = (button) => {
+    if (current === button) {
+      // Only the accordion can close back to nothing.
+      if (!narrow.matches) return;
+      close(button, true);
+      current = null;
+      return;
+    }
 
-    // Vertical tablist: up/down move between causes, matching the layout.
-    tab.addEventListener("keydown", (event) => {
+    if (current) close(current, true);
+    open(button, true);
+    current = button;
+  };
+
+  // Re-seat everything for the current layout: nothing open in the accordion,
+  // the default cause open beside the list. Runs at load and whenever the
+  // breakpoint is crossed, so a panel left open in one layout does not carry a
+  // stale inline height into the other.
+  const reset = () => {
+    const keep = narrow.matches
+      ? null
+      : current ||
+        buttons.find((b) => panelOf(b).dataset.cause === DEFAULT_CAUSE) ||
+        buttons[0];
+
+    buttons.forEach((button) => {
+      if (button !== keep) close(button, false);
+    });
+
+    current = keep || null;
+    if (keep) open(keep, false);
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => select(button));
+
+    // Up and down walk the list, matching its vertical layout. Enter and Space
+    // are the button's own, so they are left alone.
+    button.addEventListener("keydown", (event) => {
       const step =
         event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0;
       if (!step) return;
       event.preventDefault();
-      const next = (i + step + tabs.length) % tabs.length;
-      tabs[next].focus();
-      show(next, true);
+      const i = buttons.indexOf(button);
+      buttons[(i + step + buttons.length) % buttons.length].focus();
     });
   });
 
-  const initial = Math.max(
-    0,
-    tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true")
-  );
-  show(initial, false);
+  narrow.addEventListener("change", reset);
+  reset();
 })();
 
 /* -------------------------------------------------------------------------
