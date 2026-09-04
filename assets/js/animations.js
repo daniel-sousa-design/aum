@@ -262,3 +262,54 @@
   });
 })();
 
+/* -------------------------------------------------------------------------
+   Campaign figure
+
+   Rises into place as you scroll through it, scrubbed in both directions with
+   the same smoothing the headings and the footer underline use.
+   ------------------------------------------------------------------------- */
+(() => {
+  const figures = document.querySelectorAll(".campaign__figure");
+  if (!figures.length || !window.gsap || !window.ScrollTrigger) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  // How far below its resting position the figure starts, in px.
+  const RISE = 80;
+
+  // Matches the heading scrub; declared here because that one is scoped to
+  // another IIFE. Keep the two in step.
+  const SCRUB_SMOOTHING = 3;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  figures.forEach((figure) => {
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo(
+      figure,
+      { y: RISE },
+      { y: 0, duration: 1, ease: "power2.inOut" }
+    );
+
+    const proxy = { p: 0 };
+
+    ScrollTrigger.create({
+      trigger: figure,
+      start: "top bottom",
+      end: "top 40%",
+      onUpdate(self) {
+        gsap.to(proxy, {
+          p: self.progress,
+          duration: SCRUB_SMOOTHING,
+          ease: "power4.out",
+          overwrite: true,
+          onUpdate: () => tl.progress(proxy.p),
+        });
+      },
+      onRefresh(self) {
+        proxy.p = self.progress;
+        tl.progress(self.progress);
+      },
+    });
+  });
+})();
