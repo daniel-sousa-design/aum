@@ -392,7 +392,7 @@ a {
 .site-footer {
   min-height: 100vh;
   display: flex;
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 60px;
+  padding: clamp(0.75rem, calc(5vw - 20px), 2.75rem) var(--gutter) 40px;
 }
 
 .site-footer__inner {
