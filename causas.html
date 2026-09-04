@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>As causas que defendemos | A Última Manifestação?</title>
+  <meta name="description" content="As causas que a Amnistia Internacional Portugal defende na campanha «A Última Manifestação?»." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+  <main id="conteudo">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-header__logo" href="index.html">
+          <span class="site-header__logo-mark" role="img" aria-label="A Última Manifestação?"></span>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Abrir menu</span>
+        </button>
+
+        <nav class="site-nav" id="siteNav">
+          <a href="campanha.html">A Campanha</a>
+          <a href="causas.html" aria-current="page">As causas que defendemos</a>
+          <a href="index.html#participe">Participe</a>
+          <a href="index.html#materiais">Materiais</a>
+          <a href="index.html#noticias">Notícias</a>
+          <a href="#contactos">Contactos</a>
+        </nav>
+      </div>
+    </header>
+
+    <h1 class="sr-only">As causas que defendemos</h1>
+
+    <section class="causes causes--intro" aria-label="Introdução">
+      <figure class="causes__hero">
+        <img src="assets/images/causas-hero.jpg" alt="Fotograma de vídeo com o texto «What are human rights?»" />
+      </figure>
+    </section>
+
+    <section class="causes causes--note">
+      <p class="causes__intro">
+        É na Declaração Universal de Direitos Humanos que bebemos inspiração para as causas que defendemos:
+      </p>
+    </section>
+
+    <section class="causes" aria-label="Lista de causas">
+      <ul class="causes__list" role="tablist" aria-orientation="vertical">
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-expressao"
+                    aria-controls="panel-expressao" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Liberdade de Expressão</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-nao-discriminacao"
+                    aria-controls="panel-nao-discriminacao" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Não-discriminação</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-anti-racista"
+                    aria-controls="panel-anti-racista" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Luta anti-racista</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-migrantes"
+                    aria-controls="panel-migrantes" aria-selected="true"
+                    tabindex="0"><span class="causes__label">Direitos dos migrantes</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-genero"
+                    aria-controls="panel-genero" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Igualdade de Género</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-sexuais"
+                    aria-controls="panel-sexuais" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Direitos Sexuais e Reprodutivos</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-lgbtqiapn"
+                    aria-controls="panel-lgbtqiapn" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Direitos LGBTQIAPN+</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-justica-social"
+                    aria-controls="panel-justica-social" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Justiça Social</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-habitacao"
+                    aria-controls="panel-habitacao" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Direito à Habitação</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-saude"
+                    aria-controls="panel-saude" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Direito à Saúde</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-educacao"
+                    aria-controls="panel-educacao" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Direito à Educação</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-associacao"
+                    aria-controls="panel-associacao" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Liberdade de Associação</span></button>
+          </li>
+          <li role="presentation">
+            <button class="causes__item" type="button" role="tab" id="tab-climatica"
+                    aria-controls="panel-climatica" aria-selected="false"
+                    tabindex="-1"><span class="causes__label">Justiça Climática</span></button>
+          </li>
+      </ul>
+
+      <!-- One panel per cause, stacked in a single grid cell. JS hides all but
+           the selected one; without JS every panel stays readable. -->
+      <div class="causes__panels">
+        <div class="causes__panel" id="panel-expressao" role="tabpanel"
+             aria-labelledby="tab-expressao" data-cause="expressao">
+          <p>A liberdade de expressão é o direito de procurar, receber e difundir ideias e informação sem receio de censura, perseguição ou represália — incluindo o direito de criticar quem governa, e de o fazer na imprensa, em linha e na rua.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://jornalistas.eu" target="_blank" rel="noopener noreferrer">Sindicato dos Jornalistas</a></li>
+            <li><a href="https://direitosdigitais.pt" target="_blank" rel="noopener noreferrer">D3 — Defesa dos Direitos Digitais</a></li>
+            <li>Associação Portuguesa de Imprensa</li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-nao-discriminacao" role="tabpanel"
+             aria-labelledby="tab-nao-discriminacao" data-cause="nao-discriminacao">
+          <p>A não-discriminação garante que ninguém é tratado de forma desigual em razão da origem, do sexo, da identidade de género, da orientação sexual, da religião, da deficiência ou da condição social — no emprego, no acesso a serviços e na vida pública.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
+            <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
+            <li><a href="https://www.apd.org.pt" target="_blank" rel="noopener noreferrer">Associação Portuguesa de Deficientes</a> <span class="causes__abbr">(APD)</span></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-anti-racista" role="tabpanel"
+             aria-labelledby="tab-anti-racista" data-cause="anti-racista">
+          <p>O combate ao racismo exige mais do que a ausência de insultos: exige reconhecer e desmontar as desigualdades estruturais que persistem no acesso à habitação, ao emprego, à saúde e à justiça.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://www.sosracismo.pt" target="_blank" rel="noopener noreferrer">SOS Racismo</a></li>
+            <li><a href="https://djass.pt" target="_blank" rel="noopener noreferrer">Djass</a> <span class="causes__abbr">(Associação de Afrodescendentes)</span></li>
+            <li><a href="https://www.facebook.com/INMUNE.PORTUGAL/" target="_blank" rel="noopener noreferrer">INMUNE</a> <span class="causes__abbr">(Instituto da Mulher Negra em Portugal)</span></li>
+            <li>Plataforma Gueto</li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-migrantes" role="tabpanel"
+             aria-labelledby="tab-migrantes" data-cause="migrantes">
+          <p>Os direitos dos migrantes são garantias humanas e legais fundamentais — como acesso a trabalho digno, saúde, educação, habitação e proteção contra a exploração e discriminação — asseguradas a qualquer pessoa fora do seu país de origem, independentemente do seu estatuto de regularização.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://solimigrante.org" target="_blank" rel="noopener noreferrer">Solidariedade Imigrante</a> <span class="causes__abbr">(SOLIM)</span></li>
+            <li><a href="https://casadobrasildelisboa.pt" target="_blank" rel="noopener noreferrer">Casa do Brasil de Lisboa</a> <span class="causes__abbr">(CBL)</span></li>
+            <li><a href="https://jrsportugal.pt" target="_blank" rel="noopener noreferrer">JRS Portugal</a> <span class="causes__abbr">(Serviço Jesuíta aos Refugiados)</span></li>
+            <li><a href="https://cpr.pt" target="_blank" rel="noopener noreferrer">Conselho Português para os Refugiados</a> <span class="causes__abbr">(CPR)</span></li>
+            <li><a href="https://apirp.pt" target="_blank" rel="noopener noreferrer">APIRP</a> <span class="causes__abbr">(Associação de Apoio a Imigrantes e Refugiados em Portugal)</span></li>
+            <li><a href="https://www.renovaramouraria.pt" target="_blank" rel="noopener noreferrer">Renovar a Mouraria</a></li>
+            <li>Associação Imigrantes Mundo Feliz</li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-genero" role="tabpanel"
+             aria-labelledby="tab-genero" data-cause="genero">
+          <p>A igualdade de género significa direitos, oportunidades e proteção iguais independentemente do género — do salário ao trabalho de cuidado, da representação política à segurança perante a violência doméstica e sexual.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://umarfeminismos.org" target="_blank" rel="noopener noreferrer">UMAR</a> <span class="causes__abbr">(União de Mulheres Alternativa e Resposta)</span></li>
+            <li><a href="https://plataformamulheres.org.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa para os Direitos das Mulheres</a></li>
+            <li><a href="https://apav.pt" target="_blank" rel="noopener noreferrer">APAV</a> <span class="causes__abbr">(Associação Portuguesa de Apoio à Vítima)</span></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-sexuais" role="tabpanel"
+             aria-labelledby="tab-sexuais" data-cause="sexuais">
+          <p>Os direitos sexuais e reprodutivos incluem decidir sobre o próprio corpo, o acesso a informação e a contraceção, a cuidados de saúde materna e à interrupção voluntária da gravidez em segurança e sem estigma.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://apf.pt" target="_blank" rel="noopener noreferrer">APF</a> <span class="causes__abbr">(Associação para o Planeamento da Família)</span></li>
+            <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
+            <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-lgbtqiapn" role="tabpanel"
+             aria-labelledby="tab-lgbtqiapn" data-cause="lgbtqiapn">
+          <p>As pessoas LGBTQIAPN+ têm direito a viver sem discriminação, violência ou patologização — no acesso à saúde, no reconhecimento legal da identidade de género e na segurança do espaço público.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://ilga-portugal.pt" target="_blank" rel="noopener noreferrer">ILGA Portugal</a></li>
+            <li><a href="https://rea.pt" target="_blank" rel="noopener noreferrer">rede ex aequo</a></li>
+            <li><a href="https://casaqui.org" target="_blank" rel="noopener noreferrer">Casa Qui</a></li>
+            <li><a href="https://www.plano-i.org" target="_blank" rel="noopener noreferrer">Associação Plano i</a></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-justica-social" role="tabpanel"
+             aria-labelledby="tab-justica-social" data-cause="justica-social">
+          <p>A justiça social é a distribuição equitativa de recursos e oportunidades — trabalho digno, rendimento suficiente, proteção social e participação — para que a pobreza não determine o que é possível numa vida.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://www.eapn.pt" target="_blank" rel="noopener noreferrer">EAPN Portugal</a> <span class="causes__abbr">(Rede Europeia Anti-Pobreza)</span></li>
+            <li><a href="https://caritas.pt" target="_blank" rel="noopener noreferrer">Cáritas Portuguesa</a></li>
+            <li><a href="https://www.cvidaepaz.pt" target="_blank" rel="noopener noreferrer">Comunidade Vida e Paz</a></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-habitacao" role="tabpanel"
+             aria-labelledby="tab-habitacao" data-cause="habitacao">
+          <p>O direito à habitação é o direito a uma casa adequada, segura e acessível — com proteção contra despejos arbitrários e contra rendas que expulsam as pessoas dos bairros onde vivem.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://habita.info" target="_blank" rel="noopener noreferrer">Habita</a> <span class="causes__abbr">(Associação pelo Direito à Habitação e à Cidade)</span></li>
+            <li>Movimento Vida Justa</li>
+            <li>Stop Despejos</li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-saude" role="tabpanel"
+             aria-labelledby="tab-saude" data-cause="saude">
+          <p>O direito à saúde é o acesso universal a cuidados de qualidade, sem barreiras económicas, geográficas ou administrativas — e inclui a saúde mental e o cuidado a quem vive em maior vulnerabilidade.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://www.medicosdomundo.pt" target="_blank" rel="noopener noreferrer">Médicos do Mundo Portugal</a></li>
+            <li><a href="https://www.gatportugal.org" target="_blank" rel="noopener noreferrer">GAT</a> <span class="causes__abbr">(Grupo de Ativistas em Tratamentos)</span></li>
+            <li><a href="https://abraco.pt" target="_blank" rel="noopener noreferrer">Abraço</a></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-educacao" role="tabpanel"
+             aria-labelledby="tab-educacao" data-cause="educacao">
+          <p>O direito à educação é o acesso a uma escola pública, inclusiva e gratuita, que não reproduza as desigualdades de origem e que prepare para uma cidadania informada e crítica.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://the.akdn/pt/where-we-work/europe/portugal" target="_blank" rel="noopener noreferrer">Fundação Aga Khan Portugal</a></li>
+            <li><a href="https://www.epis.pt" target="_blank" rel="noopener noreferrer">EPIS</a> <span class="causes__abbr">(Empresários pela Inclusão Social)</span></li>
+            <li>Associação Nacional de Professores</li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-associacao" role="tabpanel"
+             aria-labelledby="tab-associacao" data-cause="associacao">
+          <p>A liberdade de associação é o direito de nos juntarmos, de nos organizarmos e de agirmos em conjunto — em sindicatos, coletivos e associações — sem autorização prévia nem receio de represálias.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://www.cgtp.pt" target="_blank" rel="noopener noreferrer">CGTP-IN</a></li>
+            <li><a href="https://www.ugt.pt" target="_blank" rel="noopener noreferrer">UGT</a></li>
+            <li><a href="https://www.plataformaongd.pt" target="_blank" rel="noopener noreferrer">Plataforma Portuguesa das ONGD</a></li>
+          </ul>
+        </div>
+        <div class="causes__panel" id="panel-climatica" role="tabpanel"
+             aria-labelledby="tab-climatica" data-cause="climatica">
+          <p>A justiça climática reconhece que a crise climática atinge primeiro e com mais força quem menos contribuiu para ela, e exige que a resposta proteja quem está mais exposto em vez de agravar as desigualdades.</p>
+
+          <p>Conheça:</p>
+          <ul class="causes__orgs">
+            <li><a href="https://zero.ong" target="_blank" rel="noopener noreferrer">ZERO</a> <span class="causes__abbr">(Associação Sistema Terrestre Sustentável)</span></li>
+            <li><a href="https://quercus.pt" target="_blank" rel="noopener noreferrer">Quercus</a></li>
+            <li><a href="https://www.climaximo.pt" target="_blank" rel="noopener noreferrer">Climáximo</a></li>
+            <li><a href="https://www.geota.pt" target="_blank" rel="noopener noreferrer">GEOTA</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="causes" aria-label="Sugerir uma causa">
+      <!-- Not wired up yet. To activate: give the form a real action endpoint
+           and drop data-inactive, which is what blocks submission in main.js.
+           The fields, labels and validation attributes are already in place. -->
+      <form class="form" method="post" data-inactive>
+        <p class="form__intro">
+          Quer defender uma causa que não está aqui?<br />
+          Preencha o formulário e entraremos em contacto consigo.
+        </p>
+
+        <div class="form__field form__field--full">
+          <label class="form__label" for="nome">Nome ou Associação</label>
+          <input class="form__input" id="nome" name="nome" type="text" autocomplete="name" />
+        </div>
+
+        <div class="form__field form__field--half">
+          <label class="form__label" for="localidade">Localidade</label>
+          <input class="form__input" id="localidade" name="localidade" type="text"
+                 list="localidades" autocomplete="off" data-letters-only />
+        </div>
+
+        <div class="form__field form__field--half">
+          <label class="form__label" for="idade">Idade</label>
+          <input class="form__input" id="idade" name="idade" type="text"
+                 inputmode="numeric" maxlength="3" pattern="[0-9]{1,3}"
+                 autocomplete="off" data-digits-only />
+        </div>
+
+        <div class="form__field form__field--full">
+          <label class="form__label" for="causa">A sua causa</label>
+          <input class="form__input" id="causa" name="causa" type="text" />
+        </div>
+
+        <div class="form__field form__field--full">
+          <label class="form__label" for="descricao">Pode descrevê-la e dar exemplos de associações que a representem?</label>
+          <textarea class="form__input form__input--area" id="descricao" name="descricao"
+                    rows="1" data-autogrow></textarea>
+        </div>
+
+        <div class="form__actions">
+          <button class="form__submit" type="submit">OK</button>
+        </div>
+        <datalist id="localidades">
+          <option value="Lisboa"></option>
+          <option value="Porto"></option>
+          <option value="Braga"></option>
+          <option value="Coimbra"></option>
+          <option value="Faro"></option>
+          <option value="Setúbal"></option>
+          <option value="Aveiro"></option>
+          <option value="Leiria"></option>
+          <option value="Viseu"></option>
+          <option value="Évora"></option>
+          <option value="Beja"></option>
+          <option value="Castelo Branco"></option>
+          <option value="Guarda"></option>
+          <option value="Portalegre"></option>
+          <option value="Santarém"></option>
+          <option value="Viana do Castelo"></option>
+          <option value="Vila Real"></option>
+          <option value="Bragança"></option>
+          <option value="Funchal"></option>
+          <option value="Ponta Delgada"></option>
+          <option value="Angra do Heroísmo"></option>
+          <option value="Horta"></option>
+          <option value="Almada"></option>
+          <option value="Amadora"></option>
+          <option value="Barreiro"></option>
+          <option value="Cascais"></option>
+          <option value="Vila Nova de Gaia"></option>
+          <option value="Guimarães"></option>
+          <option value="Loures"></option>
+          <option value="Matosinhos"></option>
+          <option value="Odivelas"></option>
+          <option value="Oeiras"></option>
+          <option value="Seixal"></option>
+          <option value="Sintra"></option>
+          <option value="Vila Franca de Xira"></option>
+          <option value="Maia"></option>
+          <option value="Gondomar"></option>
+          <option value="Póvoa de Varzim"></option>
+          <option value="Santa Maria da Feira"></option>
+          <option value="Barcelos"></option>
+          <option value="Vila Nova de Famalicão"></option>
+          <option value="Torres Vedras"></option>
+          <option value="Caldas da Rainha"></option>
+          <option value="Figueira da Foz"></option>
+          <option value="Covilhã"></option>
+          <option value="Fundão"></option>
+          <option value="Elvas"></option>
+          <option value="Estremoz"></option>
+          <option value="Lagos"></option>
+          <option value="Portimão"></option>
+          <option value="Loulé"></option>
+          <option value="Olhão"></option>
+          <option value="Tavira"></option>
+          <option value="Albufeira"></option>
+          <option value="Silves"></option>
+          <option value="Sines"></option>
+          <option value="Grândola"></option>
+          <option value="Alcácer do Sal"></option>
+          <option value="Tomar"></option>
+          <option value="Abrantes"></option>
+          <option value="Ourém"></option>
+          <option value="Pombal"></option>
+          <option value="Marinha Grande"></option>
+          <option value="Alcobaça"></option>
+          <option value="Nazaré"></option>
+          <option value="Peniche"></option>
+          <option value="Mafra"></option>
+          <option value="Sesimbra"></option>
+          <option value="Palmela"></option>
+          <option value="Montijo"></option>
+          <option value="Alcochete"></option>
+          <option value="Moita"></option>
+          <option value="Espinho"></option>
+          <option value="Valongo"></option>
+          <option value="Paredes"></option>
+          <option value="Penafiel"></option>
+          <option value="Marco de Canaveses"></option>
+          <option value="Amarante"></option>
+          <option value="Felgueiras"></option>
+          <option value="Fafe"></option>
+          <option value="Vizela"></option>
+          <option value="Trofa"></option>
+          <option value="Esposende"></option>
+          <option value="Ponte de Lima"></option>
+          <option value="Valença"></option>
+          <option value="Chaves"></option>
+          <option value="Peso da Régua"></option>
+          <option value="Lamego"></option>
+          <option value="São João da Madeira"></option>
+          <option value="Ovar"></option>
+          <option value="Ílhavo"></option>
+          <option value="Águeda"></option>
+          <option value="Anadia"></option>
+          <option value="Mealhada"></option>
+          <option value="Cantanhede"></option>
+          <option value="Montemor-o-Velho"></option>
+          <option value="Oliveira de Azeméis"></option>
+          <option value="Arouca"></option>
+        </datalist>
+      </form>
+    </section>
+
+    <section class="gallery" aria-labelledby="colagem">
+      <h2 class="gallery__title" id="colagem">Qual é a sua causa?</h2>
+
+      <!-- Placeholders for the submitted-cause photographs. Each shape is a
+           regular polygon of 12-20 sides clipped to the tile box, so dropping a
+           real image in means adding an <img> inside .gallery__shape - the
+           aspect-ratio on the shape is what the polygon follows. -->
+      <div class="gallery__stage">
+        <figure class="gallery__tile" data-shape="shape1" data-h="491">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 5; --shade: #2f2f2f; --poly: 0.0% 37.06%, 6.25% 20.28%, 10.58% 13.99%, 25.96% 3.5%, 40.38% 0.0%, 65.38% 1.4%, 75.96% 4.2%, 90.87% 16.08%, 96.15% 25.17%, 100.0% 38.46%, 99.52% 63.64%, 95.19% 76.92%, 89.42% 86.01%, 71.15% 97.2%, 59.13% 100.0%, 40.38% 100.0%, 23.56% 95.8%, 10.58% 86.01%, 3.37% 74.13%, 0.0% 62.94%;">
+            <img src="assets/images/gallery/liberdade-expressao.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Liberdade de Expressão</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape3" data-h="435">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 5; --shade: #3f3f3f; --poly: 0.0% 32.87%, 22.81% 0.0%, 77.95% 0.7%, 100.0% 32.87%, 99.62% 68.53%, 77.57% 100.0%, 22.43% 100.0%, 0.0% 67.13%;">
+            <img src="assets/images/gallery/nao-discriminacao.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Não-discriminação</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape2" data-h="463">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 3; --shade: #505050; --poly: 0.0% 40.27%, 8.15% 4.03%, 37.62% 0.0%, 67.71% 0.67%, 92.48% 4.7%, 100.0% 40.27%, 100.0% 59.73%, 91.85% 95.97%, 62.38% 100.0%, 32.92% 99.33%, 7.52% 94.63%, 0.0% 59.73%;">
+            <img src="assets/images/gallery/luta-anti-racista.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Luta anti-racista</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape4" data-h="533">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 5; --shade: #606060; --poly: 0.0% 41.22%, 7.92% 10.69%, 36.98% 0.0%, 65.28% 0.76%, 92.45% 11.45%, 100.0% 41.22%, 100.0% 58.78%, 92.08% 89.31%, 63.4% 100.0%, 36.98% 100.0%, 7.55% 88.55%, 0.0% 59.54%;">
+            <img src="assets/images/gallery/direitos-migrantes.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Direitos dos migrantes</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape1" data-h="421">
+          <div class="gallery__shape" style="aspect-ratio: 16 / 9; --shade: #707070; --poly: 0.0% 37.06%, 6.25% 20.28%, 10.58% 13.99%, 25.96% 3.5%, 40.38% 0.0%, 65.38% 1.4%, 75.96% 4.2%, 90.87% 16.08%, 96.15% 25.17%, 100.0% 38.46%, 99.52% 63.64%, 95.19% 76.92%, 89.42% 86.01%, 71.15% 97.2%, 59.13% 100.0%, 40.38% 100.0%, 23.56% 95.8%, 10.58% 86.01%, 3.37% 74.13%, 0.0% 62.94%;">
+            <img src="assets/images/gallery/igualdade-genero.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Igualdade de Género</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape3" data-h="505">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 5; --shade: #818181; --poly: 0.0% 32.87%, 22.81% 0.0%, 77.95% 0.7%, 100.0% 32.87%, 99.62% 68.53%, 77.57% 100.0%, 22.43% 100.0%, 0.0% 67.13%;">
+            <img src="assets/images/gallery/direitos-reprodutivos.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Direitos Sexuais e Reprodutivos</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape2" data-h="408">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 5; --shade: #919191; --poly: 0.0% 40.27%, 8.15% 4.03%, 37.62% 0.0%, 67.71% 0.67%, 92.48% 4.7%, 100.0% 40.27%, 100.0% 59.73%, 91.85% 95.97%, 62.38% 100.0%, 32.92% 99.33%, 7.52% 94.63%, 0.0% 59.73%;">
+            <img src="assets/images/gallery/direitos-lgbt.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Direitos LGBTQIAPN+</figcaption>
+          </div>
+        </figure>
+        <figure class="gallery__tile" data-shape="shape4" data-h="478">
+          <div class="gallery__shape" style="aspect-ratio: 4 / 3; --shade: #a2a2a2; --poly: 0.0% 41.22%, 7.92% 10.69%, 36.98% 0.0%, 65.28% 0.76%, 92.45% 11.45%, 100.0% 41.22%, 100.0% 58.78%, 92.08% 89.31%, 63.4% 100.0%, 36.98% 100.0%, 7.55% 88.55%, 0.0% 59.54%;">
+            <img src="assets/images/gallery/justica-social.jpg" alt="" loading="lazy" decoding="async" />
+            <span class="gallery__ink" aria-hidden="true"></span>
+            <figcaption class="gallery__label">Justiça Social</figcaption>
+          </div>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contactos">
+    <div class="site-footer__inner">
+      <p class="site-footer__contact">
+        Caso queira entrar em contacto connosco para obter mais informações, esclarecer alguma dúvida ou propor alguma parceria, escreva-nos para
+        <a href="mailto:aultimamanifestacao@amnistia.pt">aultimamanifestacao@amnistia.pt</a>.
+        <br /><br />
+        Para pedidos de entrevista contacte <a href="tel:+351919601058">919 601 058</a> ou
+        <a href="mailto:imprensa@amnistia.pt">imprensa@amnistia.pt</a>
+      </p>
+
+      <div class="site-footer__logos" role="img" aria-label="Amnistia Internacional Portugal" oncontextmenu="return false"></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="assets/js/animations.js"></script>
+</body>
+</html>

@@ -313,3 +313,277 @@
     });
   });
 })();
+
+/* -------------------------------------------------------------------------
+   Cause selector
+
+   Clicking a cause swaps the panel beside it, revealing the new content top
+   to bottom. Panels are all present in the markup and only hidden from JS, so
+   without it every panel stays readable rather than becoming unreachable.
+   ------------------------------------------------------------------------- */
+(() => {
+  const list = document.querySelector(".causes__list");
+  const panels = document.querySelector(".causes__panels");
+  if (!list || !panels || !window.gsap) return;
+
+  const tabs = Array.from(list.querySelectorAll(".causes__item"));
+  const pages = Array.from(panels.querySelectorAll(".causes__panel"));
+  if (!tabs.length || !pages.length) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // How far each block starts below its resting place, and the gap between
+  // consecutive blocks - together these read as a top-to-bottom cascade.
+  const RISE = 24;
+  const STAGGER = 0.06;
+
+  const show = (index, animate) => {
+    tabs.forEach((tab, i) => {
+      const selected = i === index;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+
+    pages.forEach((page, i) => {
+      page.hidden = i !== index;
+    });
+
+    const page = pages[index];
+    if (!animate || reduced) return;
+
+    gsap.fromTo(
+      page.children,
+      { y: RISE, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.55,
+        ease: "power2.out",
+        stagger: STAGGER,
+        overwrite: true,
+      }
+    );
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => show(i, true));
+
+    // Vertical tablist: up/down move between causes, matching the layout.
+    tab.addEventListener("keydown", (event) => {
+      const step =
+        event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0;
+      if (!step) return;
+      event.preventDefault();
+      const next = (i + step + tabs.length) % tabs.length;
+      tabs[next].focus();
+      show(next, true);
+    });
+  });
+
+  const initial = Math.max(
+    0,
+    tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true")
+  );
+  show(initial, false);
+})();
+
+/* -------------------------------------------------------------------------
+   Cause gallery physics
+
+   Matter.js rather than a hand-rolled loop: these need true polygon collision
+   (the outlines are 8-20 sided), locked rotation, and a cursor that nudges
+   them. A tween engine cannot do contact resolution, and hand-rolling SAT with
+   resting contacts is a lot of subtle code for a decorative effect.
+
+   The vertex lists below are the same ones the CSS clip-paths use, so the
+   shape that collides is exactly the shape you see.
+   ------------------------------------------------------------------------- */
+(() => {
+  const stage = document.querySelector(".gallery__stage");
+  if (!stage || !window.Matter) return;
+
+  const tiles = Array.from(stage.querySelectorAll(".gallery__tile"));
+  if (!tiles.length) return;
+
+  const GALLERY_SHAPES = {"shape1":[[0.0,37.06],[6.25,20.28],[10.58,13.99],[25.96,3.5],[40.38,0.0],[65.38,1.4],[75.96,4.2],[90.87,16.08],[96.15,25.17],[100.0,38.46],[99.52,63.64],[95.19,76.92],[89.42,86.01],[71.15,97.2],[59.13,100.0],[40.38,100.0],[23.56,95.8],[10.58,86.01],[3.37,74.13],[0.0,62.94]],"shape2":[[0.0,40.27],[8.15,4.03],[37.62,0.0],[67.71,0.67],[92.48,4.7],[100.0,40.27],[100.0,59.73],[91.85,95.97],[62.38,100.0],[32.92,99.33],[7.52,94.63],[0.0,59.73]],"shape3":[[0.0,32.87],[22.81,0.0],[77.95,0.7],[100.0,32.87],[99.62,68.53],[77.57,100.0],[22.43,100.0],[0.0,67.13]],"shape4":[[0.0,41.22],[7.92,10.69],[36.98,0.0],[65.28,0.76],[92.45,11.45],[100.0,41.22],[100.0,58.78],[92.08,89.31],[63.4,100.0],[36.98,100.0],[7.55,88.55],[0.0,59.54]]};
+
+  const { Engine, Bodies, Composite, Body, Vector } = Matter;
+
+  const REFERENCE_WIDTH = 1728;
+  const WALL = 200;          // wall thickness, well clear of the play area
+  const CURSOR_RADIUS = 260; // how close the pointer has to be to push a tile
+  const CURSOR_FORCE = 0.9;  // gentle, so they drift rather than shove
+  const MAX_TILT = 25;       // degrees of random lean, either way
+
+  let engine = null;
+  let bodies = [];
+  let frame = null;
+  let started = false;
+  const pointer = { x: -9999, y: -9999, active: false };
+
+  const build = () => {
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
+    const scale = Math.min(1, Math.max(0.38, width / REFERENCE_WIDTH));
+
+    engine = Engine.create({ enableSleeping: true });
+    // Held at 0 so the tiles sit where they are placed; released on view.
+    engine.gravity.y = 0;
+
+    Composite.add(engine.world, [
+      Bodies.rectangle(width / 2, height + WALL / 2, width + WALL * 2, WALL, { isStatic: true }),
+      Bodies.rectangle(-WALL / 2, height / 2, WALL, height * 4, { isStatic: true }),
+      Bodies.rectangle(width + WALL / 2, height / 2, WALL, height * 4, { isStatic: true }),
+    ]);
+
+    bodies = tiles.map((tile, index) => {
+      const shape = tile.querySelector(".gallery__shape");
+      const h = Number(tile.dataset.h) * scale;
+      const ratio = getComputedStyle(shape).aspectRatio.split("/");
+      const w = h * (Number(ratio[0]) / Number(ratio[1] || 1));
+
+      tile.style.width = w + "px";
+      tile.style.height = h + "px";
+
+      const points = GALLERY_SHAPES[tile.dataset.shape].map(([px, py]) => ({
+        x: (px / 100) * w,
+        y: (py / 100) * h,
+      }));
+
+      // All of them are placed across the upper part of the stage and are
+      // already on screen before anything moves - they drop from where they sit
+      // rather than flying in one at a time from off-screen. Held until
+      // released. Simulated over 16 runs, this 3-column layout packs tighter
+      // than spreading them evenly across the width.
+      const columns = 3;
+      const column = index % columns;
+      const row = Math.floor(index / columns);
+      const cell = width / columns;
+      const x = Math.min(
+        width - w / 2,
+        Math.max(w / 2, column * cell + cell / 2 + (Math.random() - 0.5) * cell * 0.4)
+      );
+      const y = h / 2 + row * height * 0.11 + Math.random() * height * 0.05;
+
+      // Deliberately not created static. A body built with isStatic: true
+      // records its static mass as its "original", so releasing it later
+      // restores inverseMass = 0 and the position goes NaN. Zero gravity holds
+      // them still just as well, and releasing is then one line.
+      const body = Bodies.fromVertices(x, y, [points], {
+        restitution: 0.06,   // almost no bounce - they land and stay
+        friction: 0.6,       // high, so a tile does not slide out from under
+        frictionAir: 0.012,
+        // Locks rotation: with infinite inertia no torque can spin the body,
+        // so they cannot tumble or trip over one another.
+        inertia: Infinity,
+        sleepThreshold: 40,
+      });
+
+      // A random lean at the start, kept for the whole fall: inertia is
+      // infinite, so nothing can add or remove spin once it is set. That gives
+      // the pile some variety without letting the tiles tumble.
+      Body.setAngle(body, ((Math.random() * 2 - 1) * MAX_TILT * Math.PI) / 180);
+      Composite.add(engine.world, body);
+      return { tile, body, w, h };
+    });
+
+    return { width, height };
+  };
+
+  const nudge = () => {
+    if (!pointer.active) return;
+    bodies.forEach(({ body }) => {
+      const dx = body.position.x - pointer.x;
+      const dy = body.position.y - pointer.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist > CURSOR_RADIUS || dist < 1) return;
+
+      // Falls off with distance, so the push is soft at the edge of reach.
+      const strength = (1 - dist / CURSOR_RADIUS) * CURSOR_FORCE * body.mass * 0.0006;
+      Body.applyForce(body, body.position, {
+        x: (dx / dist) * strength,
+        y: (dy / dist) * strength,
+      });
+    });
+  };
+
+  const draw = () => {
+    bodies.forEach(({ tile, body, w, h }) => {
+      // Rotate about the tile's own centre, which is where Matter rotates the
+      // body's vertices, so the drawn shape and the colliding shape agree.
+      tile.style.transform =
+        "translate3d(" + (body.position.x - w / 2) + "px," +
+        (body.position.y - h / 2) + "px,0) rotate(" + body.angle + "rad)";
+    });
+  };
+
+  const tick = () => {
+    nudge();
+    Engine.update(engine, 1000 / 60);
+    draw();
+    frame = requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    if (started) return;
+    started = true;
+
+    build();
+    stage.classList.add("is-ready");
+    draw();
+
+    // One frame with everything visible and still, then let go - so the tiles
+    // read as already being there rather than arriving.
+    const release = () => {
+      engine.gravity.y = 2.4; // heavy - they come down fast
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      release();
+      for (let i = 0; i < 900; i += 1) Engine.update(engine, 1000 / 60);
+      draw();
+      return;
+    }
+
+    setTimeout(release, 220);
+    tick();
+  };
+
+  stage.addEventListener("pointermove", (event) => {
+    const box = stage.getBoundingClientRect();
+    pointer.x = event.clientX - box.left;
+    pointer.y = event.clientY - box.top;
+    pointer.active = true;
+  });
+
+  stage.addEventListener("pointerleave", () => {
+    pointer.active = false;
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      start();
+    },
+    // threshold 0, not a ratio: the stage is far taller than the viewport, so
+    // 0.1 would need 425px of it on screen and never fires on a short window.
+    { threshold: 0 }
+  );
+  observer.observe(stage);
+
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    if (!started) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (frame) cancelAnimationFrame(frame);
+      Composite.clear(engine.world, false);
+      build();
+      engine.gravity.y = 2.4;
+      for (let i = 0; i < 900; i += 1) Engine.update(engine, 1000 / 60);
+      draw();
+      tick();
+    }, 250);
+  });
+})();

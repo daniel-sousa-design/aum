@@ -23,6 +23,7 @@
   --color-ink: #000000;
   --color-text: #000000;
   --color-header-bg: #f4f6f2;
+  --color-accent: #c9b8ff;
 
   --gutter: clamp(1.25rem, 4vw, 3.375rem);
 
@@ -65,6 +66,7 @@
   --space-media-footer: clamp(4rem, 10.42vw, 180px);
   --space-campaign-block: clamp(3rem, 8.68vw, 150px);
   --space-campaign-wide: clamp(4rem, 11.57vw, 200px);
+  --space-intro-list: clamp(2rem, 4.63vw, 80px);
   --space-rights: clamp(6rem, 20.25vw, 350px);
   --space-subheading-body: clamp(1rem, 1.85vw, 32px);
 
@@ -502,6 +504,447 @@ a {
 }
 
 /* -------------------------------------------------------------------------
+   As causas que defendemos page
+   ------------------------------------------------------------------------- */
+
+.causes + .causes {
+  margin-top: var(--space-campaign-block);
+}
+
+.causes--intro {
+  padding-top: var(--space-nav-heading);
+}
+
+/* The intro note sits close to the list it introduces, not a full block away. */
+.causes--note + .causes {
+  margin-top: var(--space-intro-list);
+}
+
+.causes__hero {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.causes__hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Source is 1633x843; declared so the box reserves its height before load. */
+  aspect-ratio: 1633 / 843;
+  object-fit: cover;
+}
+
+.causes__intro {
+  grid-column: 1 / 3;
+  margin: 0;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+/* The list of causes. Display-sized, looser leading than a heading block. */
+.causes__list {
+  grid-column: 1 / 5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(1.75rem, 4.2vw, var(--fs-big));
+  line-height: 1.25;
+  font-weight: 300;
+}
+
+/* Each cause is a button that swaps the panel beside it. Styled to read as
+   running text, not as a control. */
+.causes__item {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+
+.causes__item[aria-selected="true"] {
+  color: var(--color-accent);
+}
+
+/* Same right-to-left underline wipe as the nav. On the label span rather than
+   the button so it hugs the text and, with box-decoration-break, clones onto
+   each line of a cause that wraps. */
+.causes__label {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.causes__item:hover .causes__label,
+.causes__item:focus-visible .causes__label,
+.causes__item[aria-selected="true"] .causes__label {
+  background-size: 100% 2px;
+}
+
+.causes__item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Panels are stacked in one cell so swapping never changes the page height. */
+.causes__panels {
+  grid-column: 5 / 7;
+  align-self: center;
+  display: grid;
+}
+
+.causes__panels > * {
+  grid-area: 1 / 1;
+}
+
+/* Detail panel for the selected cause. */
+.causes__panel {
+  align-self: start;
+}
+
+.causes__panel p {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.causes__panel p + p {
+  margin-top: 1.6em;
+}
+
+.causes__orgs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+}
+
+/* Bracketed abbreviations and expansions, a step down from the org names. */
+.causes__abbr {
+  font-size: 0.75em;
+}
+
+/* Same right-to-left underline wipe as the nav links. A background gradient
+   rather than a ::after bar, because these names wrap - box-decoration-break
+   gives each line fragment its own rule. */
+.causes__orgs a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.causes__orgs a:hover,
+.causes__orgs a:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* -------------------------------------------------------------------------
+   Suggest-a-cause form
+   ------------------------------------------------------------------------- */
+
+.form {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: clamp(1.5rem, 3.5vw, 60px);
+}
+
+.form__intro {
+  grid-column: 1 / 5;
+  margin: 0 0 clamp(0.5rem, 1.2vw, 20px);
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.form__field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.form__field--full {
+  grid-column: 1 / -1;
+}
+
+.form__field--half {
+  grid-column: span 3;
+}
+
+.form__label {
+  font-size: clamp(1.15rem, 2.32vw, var(--fs-medium));
+  line-height: var(--lh-medium);
+  font-weight: 300;
+}
+
+.form__input {
+  border: 0;
+  background: none;
+  padding: 0.4em 0 0.3em;
+  font: inherit;
+  font-size: clamp(1rem, 1.45vw, var(--fs-body));
+  color: inherit;
+}
+
+/* No focus box on the fields - the rule under each one carries the state
+   instead, so focus stays visible to keyboard users without a ring around the
+   input. Note :focus-visible would not have helped here: text inputs match it
+   on click too, since they accept keyboard input. */
+.form__input:focus {
+  outline: none;
+}
+
+.form__field:focus-within {
+  border-bottom-color: var(--color-accent);
+}
+
+.form__field {
+  transition: border-bottom-color 0.3s ease;
+}
+
+/* Grows with its content up to 600px, then scrolls. The handle is removed
+   because the height is script-controlled - dragging it would just be undone
+   on the next keystroke. */
+/* Location suggestions. Replaces the native datalist dropdown, which cannot be
+   styled - the datalist stays in the markup as the data source and as the
+   no-JS fallback. */
+.suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border: 2px solid var(--color-ink);
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  /* Four rows, then scroll. Each row is 0.85em padding twice plus a 1.3em
+     line, so 3em; the 3px covers the separators between the four. */
+  max-height: calc(12em + 3px);
+  overflow-y: auto;
+}
+
+.suggest__option {
+  padding: 0.85em 0.9em;
+  border-bottom: 1px solid var(--color-ink);
+  cursor: pointer;
+}
+
+.suggest__option:last-child {
+  border-bottom: 0;
+}
+
+.suggest__option:hover,
+.suggest__option[aria-selected="true"] {
+  background: #f1f1f1;
+}
+
+.form__input--area {
+  resize: none;
+  overflow-y: auto;
+  min-height: 3em;
+  max-height: 600px;
+}
+
+.form__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(-1 * clamp(1.5rem, 3.5vw, 60px) + 0.5rem);
+}
+
+.form__submit {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  color: inherit;
+  cursor: pointer;
+  /* Same right-to-left underline wipe as the nav links. Declared after the
+     reset so the shorthand does not wipe the gradient. */
+  background: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form__submit:hover,
+.form__submit:focus-visible {
+  background-size: 100% 2px;
+}
+
+/* -------------------------------------------------------------------------
+   Cause gallery
+
+   Polygon tiles that fall in and settle against each other. The simulation is
+   Matter.js, driven from animations.js; everything here is appearance only.
+   The outlines are real polygons - the same vertex lists feed both this
+   clip-path and the physics bodies, so what collides is what you see.
+   ------------------------------------------------------------------------- */
+
+.gallery {
+  position: relative;
+  margin-top: var(--space-campaign-wide);
+  margin-bottom: var(--space-campaign-block);
+  padding: clamp(2.5rem, 5vw, 85px) var(--gutter) clamp(3rem, 6vw, 100px);
+  background: var(--color-bg);
+  /* Tall enough for the settled stack. With the tile sizes fixed, the settled
+     pile's height is roughly (total polygon area) / (stage width x ~0.68
+     packing), so it grows LINEARLY with the number of tiles. Simulated at this
+     height: eight tiles clear the top edge in 14 of 16 runs, nine in 7, ten in
+     1. Below this, drop tiles rather than shrinking them. */
+  min-height: clamp(435px, 85.1vw, 1470px);
+  /* Clips left, right and bottom but deliberately not the top: whatever the
+     pile does not have room for is allowed to stand above the section instead
+     of being cut off. overflow can only clip on all four sides at once, so
+     this is a clip-path with a very large negative top inset. */
+  clip-path: inset(-200vh 0 0 0);
+}
+
+.gallery__title {
+  position: relative;
+  /* Above the stage, and differenced against it. The blend moved here from the
+     tiles once they had photographs in them: differencing the tiles inverted
+     the photographs, whereas differencing the heading leaves them alone and
+     still flips the letters against whatever they land on. Drawn in the page
+     ground colour, so |ground - ground| is black over the background and light
+     over a dark photo. Mid-greys are the weak spot - there the two values meet
+     near the middle and contrast drops. */
+  z-index: 2;
+  mix-blend-mode: difference;
+  color: var(--color-bg);
+  /* Painting above the stage must not steal the pointer from the tiles under
+     it - they still have to take hover and the cursor nudge. */
+  pointer-events: none;
+  margin: 0;
+  font-size: clamp(1.5rem, 2.32vw, var(--fs-medium));
+  line-height: var(--lh-medium);
+  font-weight: 300;
+}
+
+/* Spans the whole section edge to edge, heading included: the shapes drop
+   across the title and can rest flush against the page sides, so no gutter
+   inset here. No z-index on purpose - a z-index here would make the stage a
+   stacking context, which isolates blending, and the tiles would then have
+   nothing but the stage's own transparency to difference against. Without one
+   it still paints above the heading, on DOM order alone. */
+.gallery__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.gallery__tile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  visibility: hidden;
+  will-change: transform;
+}
+
+.gallery__stage.is-ready .gallery__tile {
+  visibility: visible;
+}
+
+.gallery__shape {
+  position: relative;
+  height: 100%;
+  clip-path: polygon(var(--poly));
+  background: var(--shade, #767676);
+  overflow: hidden;
+}
+
+/* The photograph fills the polygon and keeps its own crop. Each file is
+   already cut to its tile's aspect ratio, so object-fit has little left to do
+   beyond covering rounding. */
+.gallery__shape img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Desaturated in CSS rather than in the files: the originals stay in colour,
+     so this is one line to undo, and the purple that screens over on hover is
+     then the only colour in the tile. */
+  filter: grayscale(1);
+}
+
+/* Ink flooding out from the centre on hover. Oversized so the circle covers
+   the polygon's corners before it stops growing. */
+.gallery__ink {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-accent);
+  /* Screen over the photograph: it tints towards the purple and keeps the
+     picture underneath readable, rather than covering it. */
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%) scale(0);
+  /* Quintic ease-in-out: heavy at the start, so the ink barely creeps before
+     it opens, and settling again at the end rather than snapping to a stop. */
+  transition: transform 0.9s cubic-bezier(0.83, 0, 0.17, 1);
+  pointer-events: none;
+}
+
+.gallery__tile:hover .gallery__ink,
+.gallery__tile:focus-within .gallery__ink {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.gallery__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2em;
+  text-align: center;
+  font-size: clamp(0.95rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  color: var(--color-ink);
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.33, 0, 0.15, 1) 0.3s;
+  pointer-events: none;
+}
+
+.gallery__tile:hover .gallery__label,
+.gallery__tile:focus-within .gallery__label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery__ink,
+  .gallery__label {
+    transition: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
    Custom cursor
    ------------------------------------------------------------------------- */
 
@@ -553,7 +996,8 @@ a {
 /* Same 6-column content grid as .statement / .media. minmax(0, 1fr) rather
    than 1fr so no child's min-content can force the tracks wider than the
    container - see the note on .statement. */
-.campaign {
+.campaign,
+.causes {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   column-gap: var(--col-gap);
@@ -844,7 +1288,8 @@ a {
 @media (max-width: 700px) {
   .statement,
   .media,
-  .campaign {
+  .campaign,
+  .causes {
     grid-template-columns: minmax(0, 1fr);
   }
 
