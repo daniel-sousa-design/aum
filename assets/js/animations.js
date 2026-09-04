@@ -1,5 +1,5 @@
 (() => {
-  const headings = document.querySelectorAll(".statement__heading");
+  const headings = document.querySelectorAll(".statement__heading, .rights__title");
   if (!headings.length || !window.gsap || !window.SplitText) return;
 
   // Gap between the text and the underline bar, as a multiple of the
@@ -24,11 +24,28 @@
   // you stop scrolling instead of halting dead.
   const SCRUB_SMOOTHING = 3;
 
+  // How far each line slides in from the left, in px. Centred headings use 0:
+  // with the text centred, collapsing letter-spacing alone pulls the glyphs in
+  // from both sides towards the middle, and any x offset would break that
+  // symmetry by dragging the whole line sideways as well.
+  const REVEAL_X = 56;
+
   gsap.registerPlugin(SplitText, ScrollTrigger);
 
   const initHeadingReveal = (heading) => {
     let currentTrigger = null;
     let bars = [];
+
+    // data-reveal="autoplay" opts a heading out of the scrub: it plays once at
+    // its own pace the moment it is visible, and never rewinds.
+    //
+    // hasCompleted tracks whether the reveal has FINISHED, not whether it has
+    // started. autoSplit re-splits whenever layout settles after load, and each
+    // re-split builds a fresh timeline; a "has started" flag would let that
+    // second pass cancel a reveal still in flight, leaving the heading frozen.
+    const autoplay = heading.dataset.reveal === "autoplay";
+    const fromX = heading.dataset.revealFrom === "center" ? 0 : REVEAL_X;
+    let hasCompleted = false;
 
     SplitText.create(heading, {
       type: "lines, chars",
@@ -75,7 +92,7 @@
 
           tl.fromTo(
             line,
-            { x: 56, letterSpacing: "0.05em" },
+            { x: fromX, letterSpacing: "0.05em" },
             { x: 0, letterSpacing: "0em", duration: 1.6, ease: "power2.inOut" },
             at
           );
@@ -91,6 +108,49 @@
         });
 
         if (currentTrigger) currentTrigger.kill();
+
+        if (autoplay) {
+          // SplitText resets the timeline handed back from onSplit once this
+          // callback returns, so anything set synchronously here is discarded -
+          // every state change below has to wait a frame. (The scrub path below
+          // is unaffected: it only ever writes progress from onRefresh/onUpdate,
+          // which already run later.)
+          if (hasCompleted) {
+            requestAnimationFrame(() => tl.progress(1));
+            return tl;
+          }
+
+          tl.eventCallback("onComplete", () => {
+            hasCompleted = true;
+          });
+
+          // Scoped to this split, so a re-split before the reveal finishes
+          // restarts it rather than dropping it.
+          let started = false;
+          const play = () => {
+            if (started) return;
+            started = true;
+            tl.play(0);
+          };
+
+          currentTrigger = ScrollTrigger.create({
+            trigger: heading,
+            start: "top 90%",
+            once: true,
+            onEnter: play,
+          });
+
+          // onEnter only fires when the start line is crossed, so a heading
+          // already on screen at load - this one sits at the top of the page -
+          // would never trigger it. Check the position directly instead.
+          requestAnimationFrame(() => {
+            if (heading.getBoundingClientRect().top < window.innerHeight * 0.9) {
+              play();
+            }
+          });
+
+          return tl;
+        }
 
         const proxy = { p: 0 };
 
