@@ -62,3 +62,55 @@
   tick();
   setInterval(tick, 1000);
 })();
+
+(() => {
+  // Custom cursor: a 50px 20-gon that inverts whatever sits under it.
+  // Skipped where there is no real pointer, so touch devices keep their normal
+  // behaviour and never end up with the cursor hidden and nothing drawn.
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  const POINTS =
+    "62.94,1.70 85.36,14.64 98.30,37.06 98.30,62.94 85.36,85.36 62.94,98.30 " +
+    "37.06,98.30 14.64,85.36 1.70,62.94 1.70,37.06 14.64,14.64 37.06,1.70";
+
+  const cursor = document.createElement("div");
+  cursor.className = "cursor";
+  cursor.setAttribute("aria-hidden", "true");
+  cursor.innerHTML =
+    '<svg viewBox="0 0 100 100" focusable="false">' +
+    '<polygon points="' + POINTS + '" fill="#fff" /></svg>';
+  document.body.appendChild(cursor);
+
+  // Set from JS so the native cursor is only hidden once a replacement exists.
+  document.documentElement.classList.add("has-custom-cursor");
+
+  let x = 0;
+  let y = 0;
+  let queued = false;
+
+  const draw = () => {
+    queued = false;
+    cursor.style.transform = `translate3d(${x - 25}px, ${y - 25}px, 0)`;
+  };
+
+  document.addEventListener(
+    "pointermove",
+    (event) => {
+      x = event.clientX;
+      y = event.clientY;
+      cursor.classList.add("is-visible");
+
+      // Coalesce to one write per frame - pointermove can fire far faster.
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(draw);
+      }
+    },
+    { passive: true }
+  );
+
+  // Leaving the window should take the cursor with it.
+  document.addEventListener("pointerleave", () => {
+    cursor.classList.remove("is-visible");
+  });
+})();
