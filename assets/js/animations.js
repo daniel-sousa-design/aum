@@ -10,7 +10,7 @@
   // box) to clear the letters without cutting into the line below.
   // Tune this single value to move the bar closer to (more negative) or
   // further from (less negative / positive) the letters.
-  const UNDERLINE_GAP_EM = -0.1;
+  const UNDERLINE_GAP_EM = -0.005;
 
   gsap.registerPlugin(SplitText, ScrollTrigger);
 
