@@ -241,7 +241,7 @@ a {
 
 .statement {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   column-gap: var(--col-gap);
   padding-inline: var(--gutter);
 }
@@ -253,6 +253,13 @@ a {
 .statement__heading {
   position: relative;
   grid-column: 1 / 6;
+  /* The reveal's rest state shifts each line right (x: 56) and inflates its
+     letter-spacing, and .line is nowrap, so the inline content sits well past
+     this box until the animation settles. GSAP's mask: "lines" does not clip
+     that horizontally, so contain it here or it scrolls the whole page - there
+     is no overflow-x guard on html/body. Uses clip, not hidden, so the y axis
+     stays visible and no scroll container is created. */
+  overflow-x: clip;
   margin: 0;
   font-size: clamp(1.75rem, 4.2vw, var(--fs-big));
   line-height: var(--lh-big);
@@ -370,7 +377,7 @@ a {
 
 .media {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   column-gap: var(--col-gap);
   padding-inline: var(--gutter);
   margin-top: var(--space-cta-media);
@@ -489,7 +496,7 @@ a {
 @media (max-width: 700px) {
   .statement,
   .media {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .statement__heading,
