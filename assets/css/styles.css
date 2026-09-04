@@ -26,6 +26,11 @@
 
   --gutter: clamp(1.25rem, 4vw, 3.375rem);
 
+  /* Gap between text and its underline bar, as a multiple of font-size.
+     Mirrors UNDERLINE_GAP_EM in assets/js/animations.js - keep the two in
+     step. Negative pulls the bar up towards the letters. */
+  --underline-gap: -0.005em;
+
   /* Anchor offset so #hash targets clear the sticky header. */
   --scroll-offset: 5.5rem;
 
@@ -459,6 +464,30 @@ a {
 .site-footer__contact a {
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+/* Footer links draw their underline under scroll control, scrubbing forwards
+   and backwards with the page exactly like the bars under the big paragraphs.
+   The width is written by animations.js; only the resting state lives here.
+
+   The bar is a background gradient rather than a measured element because
+   these links can wrap; box-decoration-break gives each line fragment its own.
+   JS adds .is-animated, so with no JS the plain underline above just stays. */
+.site-footer__contact.is-animated a {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 100% calc(100% + var(--underline-gap));
+  background-size: 0% 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Reduced motion: show the underline drawn and let the script leave it alone. */
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__contact.is-animated a {
+    background-size: 100% 2px;
+  }
 }
 
 .site-footer__logos {

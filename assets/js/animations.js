@@ -10,6 +10,8 @@
   // box) to clear the letters without cutting into the line below.
   // Tune this single value to move the bar closer to (more negative) or
   // further from (less negative / positive) the letters.
+  // Mirrored as --underline-gap in styles.css for the footer links; keep the
+  // two in step.
   const UNDERLINE_GAP_EM = -0.005;
 
   // Scroll distance the whole reveal is spread across, in px: a per-line
@@ -182,3 +184,81 @@
     headings.forEach(initHeadingReveal);
   });
 })();
+
+/* -------------------------------------------------------------------------
+   Footer link underlines
+
+   Scrubbed by scroll in both directions, the same way the big paragraphs are:
+   a paused timeline whose progress is driven by a smoothed proxy, so it runs
+   forwards as you scroll down and rewinds as you scroll back up.
+
+   The bar is a background gradient (see .is-animated in styles.css) because
+   these links wrap; its width is written here rather than tweened directly, so
+   nothing depends on GSAP interpolating a "0% 2px" -> "100% 2px" string.
+   ------------------------------------------------------------------------- */
+(() => {
+  const contacts = document.querySelectorAll(".site-footer__contact");
+  if (!contacts.length || !window.gsap || !window.ScrollTrigger) return;
+
+  // The CSS already shows the underline drawn; leave it alone.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  // Bar thickness, and the hold before it starts drawing - expressed in
+  // timeline seconds, so under a scrub it reads as a fraction of the scroll
+  // range rather than as wall-clock time.
+  const BAR_HEIGHT = "2px";
+  const UNDERLINE_DELAY = 0.2;
+  const UNDERLINE_DURATION = 0.9;
+
+  // Same lag the heading scrub uses; declared here because that one lives in
+  // another IIFE's scope. Keep the two in step.
+  const SCRUB_SMOOTHING = 3;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  contacts.forEach((contact) => {
+    const links = contact.querySelectorAll("a");
+    if (!links.length) return;
+
+    // Added from JS so the plain text-decoration underline survives without it.
+    contact.classList.add("is-animated");
+
+    const state = { p: 0 };
+    const apply = () => {
+      const width = state.p * 100 + "%";
+      links.forEach((link) => {
+        link.style.backgroundSize = width + " " + BAR_HEIGHT;
+      });
+    };
+
+    const tl = gsap.timeline({ paused: true, onUpdate: apply });
+    tl.fromTo(
+      state,
+      { p: 0 },
+      { p: 1, duration: UNDERLINE_DURATION, ease: "power2.inOut" },
+      UNDERLINE_DELAY
+    );
+
+    const proxy = { p: 0 };
+
+    ScrollTrigger.create({
+      trigger: contact,
+      start: "top 90%",
+      end: "top 40%",
+      onUpdate(self) {
+        gsap.to(proxy, {
+          p: self.progress,
+          duration: SCRUB_SMOOTHING,
+          ease: "power4.out",
+          overwrite: true,
+          onUpdate: () => tl.progress(proxy.p),
+        });
+      },
+      onRefresh(self) {
+        proxy.p = self.progress;
+        tl.progress(self.progress);
+      },
+    });
+  });
+})();
+
