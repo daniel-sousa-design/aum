@@ -10,6 +10,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Minotaur Sans";
+  src: url("../fonts/MinotaurSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #f4f6f2;
   --color-ink: #000000;
@@ -31,8 +39,14 @@
   --fs-medium: 40px;
   --lh-medium: 1.15; /* 46px at 40px */
 
+  --fs-body: 25px;
   --fs-small: 20px;
   --lh-small: 1.3; /* 26px at 20px */
+
+  /* Display size between --fs-medium and --fs-big, used for the campaign
+     page's lead paragraphs. */
+  --fs-lead: 44px;
+  --lh-lead: 1.15; /* 50px at 44px */
 
   /* 6-column content grid */
   --col-gap: 20px;
@@ -44,6 +58,10 @@
   --space-countdown-cta: clamp(3.5rem, 8.68vw, 150px);
   --space-cta-media: clamp(3.5rem, 8.68vw, 150px);
   --space-media-footer: clamp(4rem, 10.42vw, 180px);
+  --space-campaign-block: clamp(3rem, 8.68vw, 150px);
+  --space-campaign-wide: clamp(4rem, 11.57vw, 200px);
+  --space-rights: clamp(6rem, 20.25vw, 350px);
+  --space-subheading-body: clamp(1rem, 1.85vw, 32px);
 
   font-size: 16px;
 }
@@ -180,6 +198,14 @@ a {
   transform: scaleX(1);
 }
 
+/* The link for the page you are already on keeps its underline drawn, so the
+   nav doubles as a "you are here" marker. Grows from the left to read as a
+   settled state rather than the right-to-left hover wipe. */
+.site-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
 .nav-toggle {
   display: none;
   position: relative;
@@ -270,7 +296,11 @@ a {
   color: var(--color-text);
 }
 
-.statement__heading .line {
+/* Split lines must not re-wrap while their letter-spacing is being animated -
+   without this the copy reflows on every frame of the scrub. Applies to every
+   heading the reveal touches, centred ones included. */
+.statement__heading .line,
+.rights__title .line {
   white-space: nowrap;
 }
 
@@ -285,7 +315,7 @@ a {
 .statement__body {
   grid-column: 4 / 7;
   margin: var(--space-heading-body) 0 0;
-  font-size: clamp(1.15rem, 1.45vw, 25px);
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
   line-height: var(--lh-small);
 }
 
@@ -443,6 +473,243 @@ a {
 }
 
 /* -------------------------------------------------------------------------
+   A Campanha page
+   ------------------------------------------------------------------------- */
+
+/* Same 6-column content grid as .statement / .media. minmax(0, 1fr) rather
+   than 1fr so no child's min-content can force the tracks wider than the
+   container - see the note on .statement. */
+.campaign {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  padding-inline: var(--gutter);
+}
+
+.campaign + .campaign {
+  margin-top: var(--space-campaign-block);
+}
+
+.campaign--intro {
+  padding-top: var(--space-nav-heading);
+}
+
+/* Reads as a full screen: the figure hangs from the top right, the copy sits
+   on the bottom left, and the gap between them is whatever height is left. */
+.campaign--split {
+  min-height: 100vh;
+}
+
+.campaign--split .campaign__col--wide {
+  align-self: end;
+  /* Lifted off the bottom edge - sitting flush against it read as too low. */
+  margin-bottom: clamp(2rem, 5.79vw, 100px);
+}
+
+.campaign--split .campaign__figure {
+  align-self: start;
+}
+
+.campaign--split + .campaign {
+  margin-top: var(--space-campaign-wide);
+}
+
+/* Secondary running copy. Smaller than .statement__body (25px) - this page
+   sets its supporting text at the 20px small size. */
+.campaign__note {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+/* Runs 2.5 columns wide inside a 3-column span, so the copy stops mid-column
+   rather than at the track edge.
+
+   The item spans W = 3x + 2g (x = column, g = --col-gap) and the target is
+   2.5x + 2g, which reduces to (2.5/3)W + g/3 - expressed from the item's own
+   width, so it needs no viewport units and stays correct at every breakpoint. */
+.campaign__measure {
+  width: calc(100% * 2.5 / 3 + var(--col-gap) / 3);
+}
+
+/* Grid placement, kept separate from the typographic classes so either can be
+   applied to a wrapper or to a single element. */
+.campaign__col--wide {
+  grid-column: 1 / 4;
+}
+
+.campaign__col--offset {
+  grid-column: 4 / 7;
+}
+
+/* Section heading - between the body and display sizes. */
+.campaign__subheading {
+  margin: 0 0 var(--space-subheading-body);
+  font-size: clamp(1.3rem, 2.32vw, var(--fs-medium));
+  line-height: var(--lh-medium);
+  font-weight: 300;
+}
+
+.campaign__list {
+  margin: var(--space-subheading-body) 0 0;
+  padding-left: 1.1em;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.campaign__list li + li {
+  margin-top: 0.35em;
+}
+
+.campaign__figure {
+  grid-column: 5 / 7;
+  margin: 0;
+}
+
+.campaign__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Source is 934x1284; declared so the box reserves the right height before
+     the image loads and the proportions are never altered. */
+  aspect-ratio: 934 / 1284;
+  object-fit: cover;
+}
+
+/* Display-weight paragraphs, a step below the .statement__heading size. */
+.campaign__lead {
+  /* 4.5 columns. Spans 5 (W = 5x + 4g) and wants 4.5x + 4g, which reduces to
+     0.9W + 0.4g - same derivation as .campaign__measure, different span. */
+  grid-column: 1 / 6;
+  width: calc(100% * 4.5 / 5 + var(--col-gap) * 0.4);
+  margin: 0;
+  font-size: clamp(1.5rem, 2.9vw, var(--fs-lead));
+  line-height: var(--lh-lead);
+  font-weight: 300;
+}
+
+.campaign__lead + .campaign__lead {
+  margin-top: 1em;
+}
+
+/* -------------------------------------------------------------------------
+   Rights panel (text inside the polygon)
+   ------------------------------------------------------------------------- */
+
+.rights {
+  position: relative;
+  margin-top: var(--space-campaign-block);
+  /* Generous inline padding keeps the copy clear of the sloping sides; the
+     block padding keeps it out of the narrow top and bottom. */
+  padding-block: var(--space-rights);
+  padding-inline: clamp(1.5rem, 9vw, 155px);
+  text-align: center;
+  /* The outline is allowed to grow wider than the viewport on narrow screens
+     rather than crushing the text; clip it here so the page never scrolls. */
+  overflow-x: clip;
+}
+
+/* The outline is stretched to the panel box rather than kept circular, so it
+   tracks however tall the text inside it ends up being. non-scaling-stroke
+   keeps the hairline even weight despite that non-uniform scaling. */
+.rights__outline polygon {
+  stroke-width: 2pt;
+}
+
+.rights__outline {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Never narrower than 46rem, so on small screens it overhangs the viewport
+     (clipped by .rights) instead of closing in on the text.
+     The 6px inset leaves room for the stroke: at 2pt it straddles the path by
+     ~1.3px, and the polygon's widest points sit on the box edge, so a flush
+     100% would clip those extremes to half thickness. */
+  width: max(100% - 6px, 46rem);
+  height: 100%;
+  pointer-events: none;
+  color: var(--color-ink);
+}
+
+.rights__inner {
+  position: relative;
+  /* Roughly 50% wider than it was - the polygon is broad enough at large
+     sizes that the old measure left far too much empty margin inside it. */
+  max-width: 81ch;
+  margin: 0 auto;
+}
+
+.rights__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.2vw, var(--fs-big));
+  line-height: var(--lh-big);
+  font-weight: 300;
+}
+
+.rights__source {
+  margin: var(--space-campaign-block) 0 0;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+}
+
+/* The note acts as a lead-in to the second citation, so it takes the same
+   generous top margin the source lines get rather than the base margin: 0. */
+.rights__inner .campaign__notes {
+  margin-top: var(--space-campaign-block);
+}
+
+.rights__article {
+  margin: 0.9em 0 0;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+}
+
+.rights__quote {
+  margin: 0.6em 0 0;
+  font-size: clamp(1.15rem, 2.32vw, var(--fs-medium));
+  line-height: var(--lh-medium);
+  font-weight: 300;
+}
+
+.rights__quote + .rights__quote {
+  margin-top: 1em;
+}
+
+.rights__strong {
+  font-weight: 700;
+}
+
+/* Notes: the smallest running text on the site, one step under the 25px body
+   copy. Use for asides and lead-ins rather than for paragraphs of content. */
+.campaign__notes {
+  margin: 0;
+  font-size: clamp(0.85rem, 1.16vw, var(--fs-small));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.campaign__closing {
+  margin-top: var(--space-campaign-block);
+  margin-bottom: var(--space-campaign-wide);
+  padding-inline: var(--gutter);
+  text-align: center;
+  font-size: clamp(1.15rem, 1.45vw, var(--fs-body));
+  line-height: var(--lh-small);
+  text-wrap: pretty;
+}
+
+.campaign__closing p {
+  margin: 0;
+}
+
+.campaign__closing p + p {
+  margin-top: 1.6em;
+}
+
+/* -------------------------------------------------------------------------
    Responsive nav (small screens)
    ------------------------------------------------------------------------- */
 
@@ -502,14 +769,36 @@ a {
 
 @media (max-width: 700px) {
   .statement,
-  .media {
+  .media,
+  .campaign {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .statement__heading,
   .statement__body,
-  .media__image {
+  .media__image,
+  .campaign__col--wide,
+  .campaign__col--offset,
+  .campaign__subheading,
+  .campaign__list,
+  .campaign__figure,
+  .campaign__lead {
     grid-column: 1 / -1;
+  }
+
+  .campaign__measure,
+  .campaign__lead {
+    width: 100%;
+  }
+
+  /* The split section stacks, so its full-screen framing no longer applies. */
+  .campaign--split {
+    min-height: 0;
+  }
+
+  /* The figure sits beside its list on desktop; stack it under on mobile. */
+  .campaign__figure {
+    margin-top: var(--space-subheading-body);
   }
 
   .site-footer__logos {
